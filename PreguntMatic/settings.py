@@ -95,3 +95,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#Templates
+TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'TEMPLATES'),]
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "fitxers_estatics"),
+)
+
+##Defineixo on van les imatges del titols
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+#Login i logout
+LOGIN_URL = '/usuaris/login'
+LOGOUT_URL = '/usuaris/logout'
