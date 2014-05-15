@@ -2,11 +2,18 @@
 <!DOCTYPE html>
 <html lang="ca">
 	<head>
+		<link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+		<link href="{% static 'bootstrap/css/mensajes.css' %}" rel="stylesheet">
 		<meta charset="utf-8">
 		<title>{% block titol %}base{% endblock %}</title>
 	</head>
 
 	<body>
+		{% block content %}
 		Hola hola
+		{% endblock %}
+		<script src="{% static 'bootstrap/js/jquery.js' %}"></script>
+		<script src="{% static 'bootstrap/js/mensajes.js' %}"></script>
+		<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 	</body>
 </html>

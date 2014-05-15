@@ -30,6 +30,7 @@ ALLOWED_HOSTS = ['*',]
 # Application definition
 
 INSTALLED_APPS = (
+    'suit',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'Usuaris',
     'Preguntes',
+    'eines',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -98,6 +100,7 @@ STATIC_URL = '/static/'
 
 #Templates
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'TEMPLATES'),]
+
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "fitxers_estatics"),
 )
