@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 
 class Usuari(models.Model):
     usuari = models.OneToOneField(User)
+    punts = models.IntegerField()
+    
     
     def __unicode__(self):
         return self.usuari.username

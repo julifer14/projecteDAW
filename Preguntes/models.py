@@ -8,7 +8,7 @@ class tipusPregunta(models.Model):
     enunciatModel = models.CharField(max_length=200)
     
     def __unicode__(self):
-        return self.noms
+        return self.nom
     
 class pregunta(models.Model):
     enunciat =  models.CharField(max_length=500)
@@ -18,9 +18,21 @@ class pregunta(models.Model):
     def __unicode__(self):
         return self.enunciat
     
+class examen(models.Model):
+    tipus = models.ForeignKey(tipusPregunta)
+    data = models.DateField(auto_now=True)
+    hora = models.TimeField(auto_now=True)
+    correctes = models.IntegerField()
+    incorrectes = models.IntegerField()
+    
+    def __unicode__(self):
+        return self.enunciat
+    
+    
 class respostaUsuari(models.Model):
     pregunta =  models.ForeignKey(pregunta)
     usuari = models.ForeignKey(User)
+    examen = models.ForeignKey(examen)
     respostaUsuari = models.CharField(max_length=500)
     
     def __unicode__(self):
@@ -31,4 +43,5 @@ class preguntaErronea(models.Model):
     usuariNotifica = models.ForeignKey(User)
     data = models.DateField()
     hora = models.TimeField()
+    
     
