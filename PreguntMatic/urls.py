@@ -10,5 +10,6 @@ urlpatterns = patterns('',
     # url(r'^$', 'PreguntMatic.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
     url(r'^$', 'eines.views.home', name='home'),
+    url(r'^usuaris/', include('Usuaris.urls', namespace='usuaris')),
     url(r'^admin/', include(admin.site.urls)),
 )
