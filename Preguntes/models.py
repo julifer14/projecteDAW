@@ -3,40 +3,40 @@ from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 
-class tipusPregunta(models.Model):
+class tema(models.Model):
     nom = models.CharField(max_length=100,unique= True)
-    enunciatModel = models.CharField(max_length=200)
     
     def __unicode__(self):
         return self.nom
+
+tipus = (
+    ('EmplenarBuitsOrtografics','Emplenar Buits d\'ortografia'),
+    ('CompletarGramatica','Completar gramatica'),
+    ('Test','Test'),
+    ('Relacionar','Relacionar'),
+    )
     
 class pregunta(models.Model):
+    tema = models.ForeignKey(tema)
+    usuari = models.ForeignKey(User)
+    tipus = models.CharField(max_length=100,choice=tipus)
     enunciat =  models.CharField(max_length=500)
-    tipus = models.ForeignKey(tipusPregunta)
-    usuari = models.ForeignKey(User)
-    
-    def __unicode__(self):
-        return self.enunciat
-    
-class examen(models.Model):
-    tipus = models.ForeignKey(tipusPregunta)
-    data = models.DateField(auto_now=True)
-    hora = models.TimeField(auto_now=True)
-    correctes = models.IntegerField()
-    incorrectes = models.IntegerField()
+
     
     def __unicode__(self):
         return self.enunciat
     
     
-class respostaUsuari(models.Model):
-    pregunta =  models.ForeignKey(pregunta)
+    
+class puntuacio(models.Model):
+    pregunta = models.ForeignKey(pregunta)
     usuari = models.ForeignKey(User)
-    examen = models.ForeignKey(examen)
-    respostaUsuari = models.CharField(max_length=500)
+    notaUsuari = models.IntegerField()
+    data = models.DateField()
+    hora = models.TimeField()
     
     def __unicode__(self):
-        return self.respostaUsuari
+        return "Usuari " + self.usuari + " pregunta: " + self.pregunta.id + " punts " + self.notaUsuari 
     
 class preguntaErronea(models.Model):
     pregunta = models.ForeignKey(pregunta)
