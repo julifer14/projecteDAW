@@ -19,7 +19,7 @@ tipus = (
 class pregunta(models.Model):
     tema = models.ForeignKey(tema)
     usuari = models.ForeignKey(User)
-    tipus = models.CharField(max_length=100,choice=tipus)
+    tipus = models.CharField(max_length=100,choices=tipus)
     enunciat =  models.CharField(max_length=500)
 
     

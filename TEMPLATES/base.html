@@ -27,27 +27,14 @@
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 						<li class="active">
-							<a href="#">Preguntes</a>
+							<a href="#">Pràcticar</a>
 						</li>
 						<li>
 							<a href="#">Estadistiques</a>
 						</li>
+						
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Examens <b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li>
-									<a href="#">Fer examen escollint tipus</a>
-								</li>
-								<li class="divider"></li>
-								<li>
-									<a href="#">Aleatori</a>
-								</li>
-								
-								
-							</ul>
-						</li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Practicar <b class="caret"></b></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Fer preguntes<b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li>
 									<a href="#">Practicar escollint tipus</a>
@@ -62,34 +49,28 @@
 						</li>
 					</ul>
 					{% if user.is_authenticated %}
+					<!-- USUARI AUTENTICAT! -->
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuari<b class="caret"></b></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Hola, {{user.username}}</a>
 							<ul class="dropdown-menu">
 								<li>
-									<a href="#">Login</a>
+									<a href="#">Perfil</a>
 								</li>
 								<li>
-									<a href="#">Registrar</a>
+									<a href="{% url 'usuaris:logout' %}">Logout</a>
 								</li>
 								
 							</ul>
 						</li>
 					</ul>
 					{% else %}
-					<!-- USUARI AUTENTICAT! -->
 					<ul class="nav navbar-nav navbar-right">
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuari<b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li>
-									<a href="#">Login</a>
-								</li>
-								<li>
-									<a href="#">Registrar</a>
-								</li>
-								
-							</ul>
+						<li>
+							<a href="{% url 'usuaris:login' %}">Login</a>
+						</li>
+						<li>
+							<a href="#">Registrar</a>
 						</li>
 					</ul>
 					{% endif %}
@@ -103,5 +84,26 @@
 		<script src="{% static 'bootstrap/js/jquery.js' %}"></script>
 		<script src="{% static 'bootstrap/js/mensajes.js' %}"></script>
 		<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+		{% if messages %}
+		<script>
+			{% load eines_extras %}
+
+			//{% get_twitter_bootstrap_alert_msg_css_name message.tags as alert_tag %}-->
+			$(document).ready(function() {
+				//$().toastmessage('showErrorToast',"error dialog...");
+
+				{% for message in messages %}
+				$().toastmessage('showToast', {
+					text : "{{message}}",
+					sticky : false,
+					position : 'top-right',
+					type : "{{message.tags}}",
+				});
+
+				{% endfor %}
+
+			});
+		</script>
+		{% endif %}
 	</body>
 </html>
