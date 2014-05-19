@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 
 {% block  title %} Crear pregunta - PreguntMatic {% endblock %}
+
+{% block localitzacio %}
+		<li>
+			<a href="{% url 'preguntes:ferPreguntes' %}">Preguntes</a>
+		</li>
+		<li>
+			<a class="active">Crear Pregunta</a>
+		</li>
+{% endblock %}
+
 {% block content %}
 <h1>Creació de preguntes</h1>
 <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" role="form">

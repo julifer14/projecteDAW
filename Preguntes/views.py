@@ -50,3 +50,7 @@ def llistaTemes(request):
     context = {'temes':temes}
     #crear html!
     return render(request,'llistatTemes.html',context)
+
+def ferPreguntes(request):
+    temes = tema.objects.all()
+    return render(request,'preguntes.html',{'temes':temes})

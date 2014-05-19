@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block  title %} Llistat de temes - PreguntMatic {% endblock %}
+
+{% block localitzacio %}
+		<li>
+			<a href="{% url 'preguntes:ferPreguntes' %}">Preguntes</a>
+		</li>
+		<li>
+			<a class="active">Llistat de Temes</a>
+		</li>
+{% endblock %}
+
+{% block content %} 
+<h1>Temes disponibles</h1>
+{% if temes %}
+<div class="container">
+	<ul>
+			<div class="list-group col-md-8 col-sm-offset-2 ">
+			{% for tema in temes %}
+				<div class="list-group-item">
+					<h4>{{ tema.nom }} </h4>		
+				</div>
+			{% endfor %}
+			</div>
+	</ul>
+</div>
+{% else %}
+<p>
+	No hi ha cap tema disponible.
+</p>
+{% endif %} {% endblock %}
+

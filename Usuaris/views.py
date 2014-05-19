@@ -9,6 +9,8 @@ from Usuaris.models import usuari
 
 # Create your views here.
 
+#def perfil(request):
+
 def registrar(request):
     if request.method == 'POST':
         form = formulariRegistre(request.POST)

@@ -20,54 +20,68 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="#">Preguntmatic</a>
+					<a class="navbar-brand" href="{% url 'home' %}">Preguntmatic</a>
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 						<li class="active">
-							<a href="#">Pràcticar</a>
+							<a href="{% url 'preguntes:ferPreguntes' %}">Pràcticar</a>
 						</li>
 						<li>
 							<a href="#">Estadistiques</a>
 						</li>
-						
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Fer preguntes<b class="caret"></b></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Gestió Preguntes<b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li>
-									<a href="#">Practicar escollint tipus</a>
+									<a href="{% url 'preguntes:crearTema' %}">Crear tema</a>
 								</li>
 								<li class="divider"></li>
 								<li>
-									<a href="#">Aleatori</a>
+									<a href="{% url 'preguntes:crearPregunta' %}">Crear Pregunta</a>
 								</li>
-								
-								
+
 							</ul>
 						</li>
+						<!--
+						<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Fer preguntes<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+						<li>
+						<a href="#">Practicar escollint tipus</a>
+						</li>
+						<li class="divider"></li>
+						<li>
+						<a href="#">Aleatori</a>
+						</li>
+
+						</ul>
+						</li>-->
 					</ul>
 					{% if user.is_authenticated %}
 					<!-- USUARI AUTENTICAT! -->
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Hola, {{user.username}}</a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								<span class="glyphicon glyphicon-user"></span> Hola, {{user.username}}</a>
 							<ul class="dropdown-menu">
 								<li>
 									<a href="#">Perfil</a>
 								</li>
 								<li>
-									<a href="{% url 'usuaris:logout' %}">Logout</a>
+									<a href="{% url 'usuaris:logout' %}"> <span class="glyphicon glyphicon-log-out"></span>Logout</a>
 								</li>
-								
+
 							</ul>
 						</li>
 					</ul>
 					{% else %}
 					<ul class="nav navbar-nav navbar-right">
 						<li>
-							<a href="{% url 'usuaris:login' %}">Login</a>
+							
+							<a href="{% url 'usuaris:login' %}"><span class="glyphicon glyphicon-log-in"></span> Login </a>
 						</li>
 						<li>
 							<a href="{% url 'usuaris:registre' %}">Registrar</a>
@@ -77,10 +91,22 @@
 				</div><!-- /.navbar-collapse -->
 			</div><!-- /.container-fluid -->
 		</nav>
+		
+		<ol class="breadcrumb col-md-offset-1 col-md-10">
+			<span>Et trobes a: </span>
+			<li>
+				<a class="active">Home</a>
+			</li>
+			{% block localitzacio %}
 
-		{% block content %}
-		Hola hola
-		{% endblock %}
+			{% endblock %}
+		</ol>
+
+		<div class="col-md-11 col-md-offset-1">
+			{% block content %}
+			Hola hola
+			{% endblock %}
+		</div>
 		<script src="{% static 'bootstrap/js/jquery.js' %}"></script>
 		<script src="{% static 'bootstrap/js/mensajes.js' %}"></script>
 		<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
