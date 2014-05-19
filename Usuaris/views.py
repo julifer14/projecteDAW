@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.http.response import HttpResponseRedirect
 from django.contrib.auth.models import User
+from Usuaris.models import usuari
 
 # Create your views here.
 
@@ -14,18 +15,22 @@ def registrar(request):
         if form.is_valid():
             nom = form.cleaned_data['nom']
             cognom = form.cleaned_data['cognom']
-            usuari = form.cleaned_data['usuari']
+            usuariT = form.cleaned_data['usuari']
             correu = form.cleaned_data['correu']
             contrasenya = form.cleaned_data['contrasenya']
             confirmacioContrasenya = form.cleaned_data['confirmacioContrasenya']
-            comprovacioUsuari = User.objects.filter(username = usuari).count()
+            comprovacioUsuari = User.objects.filter(username = usuariT).count()
             if comprovacioUsuari==0:
                 if contrasenya == confirmacioContrasenya:
-                    user = User.objects.create_user(usuari,correu,contrasenya)
+                    user = User.objects.create_user(usuariT,correu,contrasenya)
                     user.first_name = nom
                     user.last_name = cognom
                     user.save()
-                    userAuth = authenticate(username = usuari,password = contrasenya)
+                    perfil = usuari()
+                    perfil.user = user
+                    perfil.punts = 10
+                    perfil.save()
+                    userAuth = authenticate(username = usuariT,password = contrasenya)
                     if userAuth is not None:
                         #Pot ser que l'usuari estigui descativat! s'ha de comprovar
                         if userAuth.is_active:
