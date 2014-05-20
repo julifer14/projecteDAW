@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block  title %} Crear pregunta - PreguntMatic {% endblock %}
+{% block  title %}Crear pregunta{% endblock %}
 
 {% block localitzacio %}
 		<li>
@@ -16,10 +16,12 @@
 <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" role="form">
 	{% csrf_token %}
 	{% for field in form.visible_fields %}
-	<div id="formEntradaPreguntes" class="col-md-12  form-group">
-		{{ field.errors }}
-		{{ field.label_tag }} {{ field }}
-	</div>
+		{%if field.label_tag != "Usuari:"%}
+		<div  class="col-md-12  form-group">
+			{{ field.errors }}
+			{{ field.label_tag }} {{ field }}
+		</div>
+		{% endif %}
 	{% endfor %}
 	<div class="col-md-6 col-md-offset-3">
 		<input class="btn btn-default" type="submit" value="Envia" />
