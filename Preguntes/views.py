@@ -5,7 +5,7 @@ from Preguntes.forms import formulariPregunta, formulariTema
 from django.contrib import messages
 from django.http.response import HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
-from Preguntes.models import tema
+from Preguntes.models import tema, pregunta
 from django.contrib.auth.models import User
 
 # Create your views here.
@@ -49,13 +49,18 @@ def crearTema(request):
         form.fields[c].widget.attrs['class'] = 'form-control'
     form.fields['nom'].widget.attrs['placeholder'] = 'Nom del tema'
     return render(request,'crearTema.html',{'form':form,})
+@login_required
+def practicarTema(request, idTema):
+    temeta = get_object_or_404(tema, pk = idTema)
+    preguntesTema = pregunta.objects.filter(tema = idTema)
+    context = {'preguntesTema':preguntesTema,'tema':temeta}
+    return render(request, 'preguntesTema.html',context)
 
 def llistaTemes(request):
     temes = tema.objects.all()
     context = {'temes':temes}
-    #crear html!
     return render(request,'llistatTemes.html',context)
 
 def ferPreguntes(request):
-    temes = tema.objects.all()
-    return render(request,'preguntes.html',{'temes':temes})
+    #temes = tema.objects.all()
+    return render(request,'preguntes.html')

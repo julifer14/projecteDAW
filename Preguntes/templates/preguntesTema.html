@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block  title %}Llistat de temes{% endblock %}
+
+{% block localitzacio %}
+		<li>
+			<a href="{% url 'preguntes:ferPreguntes' %}">Preguntes</a>
+		</li>
+		<li>
+			<a href="{% url 'preguntes:llistatTemes' %}">Llistat Temes</a>
+		</li>
+		<li>
+			<a class="active">Tema: {{ tema.nom }}</a>
+		</li>
+{% endblock %}
+
+{% block content %} 
+<h1>Preguntes disponibles del tema {{tema.nom}}</h1>
+<br>
+{% if preguntesTema %}
+<div class="container">
+	<ul>
+			<div class="list-group col-md-8 col-sm-offset-2 ">
+			{% for pregunta in preguntesTema %}
+				<div class="list-group-item text-center">
+					<p>{{ pregunta.enunciat }} </p>		
+				</div>
+			{% endfor %}
+			</div>
+	</ul>
+</div>
+{% else %}
+<p class="col-md-5 col-md-offset-3 text-center">
+	En aquest moment no disposem de cap pregunta d'aquest tema.<br>
+	<strong>Ets professor? Crea'n alguna!</strong><br><br>
+	<a href="{% url 'preguntes:crearPregunta' %}">
+		<button class="btn btn-info">
+			Crear Pregunta!
+		</button>
+		</a>
+</p>
+{% endif %} {% endblock %}

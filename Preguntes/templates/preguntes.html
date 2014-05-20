@@ -13,34 +13,29 @@
 {% block content %}
 <h1>Estas preparat per començar a pràcticar?</h1>
 <br>
-<p>
+<strong class="text-center">
 	Disposes de dos formes de fer les pràctiques aleatories o escollint el tema
-</p>
+</strong><br><br>
 
 <div class="jumbotron col-md-5 ">
 	<h2>Escollint el tema</h2>
 	<div class="container">
 		<p>
-			Tindras la opció d'escollir entre els següents temes:
+			Podras escollir entre practicar la a/e, o/u, singular/plurar i molts més!
 		</p>
-		{% if temes %}
-		<ul class="list-group">
-			{% for tema in temes %}
-			<li class="list-group-item">
-				{{tema.nom}}
-			</li>
-			{% endfor %}
-		</ul>
-		{% endif %}
+		<a href="{% url 'preguntes:llistatTemes' %}">
 		<button class="btn btn-default">
 			Vull escollir el tema
 		</button>
+		</a>
+		
 	</div>
 </div>
 <div class="jumbotron col-md-5 col-md-offset-1 ">
 	<h2>Preguntes aleatories</h2>
 	<div class="container">
-		<button class="btn btn-default">
+		<p>Sortiran un seguit de preguntes barrejades de tots els temes disponibles</p>
+		<button class="btn btn-default" >
 			Vull pràcticar aleatoriament
 		</button>
 	</div>
