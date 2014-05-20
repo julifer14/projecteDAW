@@ -20,7 +20,7 @@ class pregunta(models.Model):
     tema = models.ForeignKey(tema)
     usuari = models.ForeignKey(User)
     tipus = models.CharField(max_length=100,choices=tipus)
-    enunciat =  models.CharField(max_length=500)
+    enunciat =  models.TextField(max_length=500)
 
     
     def __unicode__(self):

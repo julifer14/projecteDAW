@@ -1,15 +1,43 @@
 # -*- encoding: utf-8 -*-
-from django.shortcuts import render
-from Usuaris.forms import formulariLogin, formulariRegistre
+from django.shortcuts import render, get_object_or_404
+from Usuaris.forms import formulariLogin, formulariRegistre, formulariPerfil
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.http.response import HttpResponseRedirect
 from django.contrib.auth.models import User
 from Usuaris.models import usuari
+from django.core.urlresolvers import reverse
 
 # Create your views here.
 
-#def perfil(request):
+def perfil(request):
+    usuari = request.user
+    useret = get_object_or_404(User, pk=usuari.id)
+    if request.method == 'POST':
+        form = formulariPerfil(request.POST)
+        if form.is_valid():
+            
+            useret.first_name = form.cleaned_data['first_name']
+            useret.last_name = form.cleaned_data['last_name']
+            useret.email = form.cleaned_data['email']
+            useret.save()
+            messages.success(request, 'Perfil editat correctament')
+            return HttpResponseRedirect(reverse('home'))
+        else:
+            messages.error(request,'Error al editar el perfil')
+    else:
+        form = formulariPerfil()
+        
+    #Afegir la clase de bootstrap als camps
+    camps_bootestrapejar =( 'last_name','first_name','email')
+    for c in camps_bootestrapejar:
+        form.fields[c].widget.attrs['class'] = 'form-control'
+    
+    form.fields['last_name'].widget.attrs['value'] = useret.last_name
+    form.fields['first_name'].widget.attrs['value'] = useret.first_name
+    form.fields['email'].widget.attrs['value'] = useret.email
+            
+    return render(request, 'perfil.html',{'form':form})
 
 def registrar(request):
     if request.method == 'POST':
