@@ -3,16 +3,14 @@
 {% block  title %}Perfil{% endblock %}
 
 {% block localitzacio %}
-		<li>
-			<a href=#>Usuaris</a>
-		</li>
-		<li>
-			<a class="active">Perfil</a>
-		</li>
+<li>
+	<a href=#>Usuaris</a>
+</li>
+<li>
+	<a class="active">Perfil</a>
+</li>
 {% endblock %}
 {% block content %}
-
-
 
 <div class="col-md-12">
 	<form action="" method="post" class="form-horizontal col-md-4 col-md-offset-4" role="form">
@@ -20,31 +18,36 @@
 		{% for field in form.visible_fields %}
 		<div class="form-group">
 			{{ field.errors }}
-			{{ field }}
+			{{ field.label_tag }}  {{ field }}
 		</div>
 		{% endfor %}
-		<strong>Puntuació: </strong><p>{{user.usuari.punts}}</p>
+		<div class="form-group">
+			<strong>Puntuació: </strong>
+			<p>
+				{{user.usuari.punts}}
+			</p>
+		</div>
 		<input class="btn btn-default col-md-12 " type="submit" value="Guardar" />
 	</form>
-	
+
 </div>
 <!--
 <div class="container">
-	<div class="row">
-		<div class="col-md-6">
-			<h1 class="text-center">{{user.username}}</h1>
-		</div>
-		<div clas="row col-md-12">
-			<div class="col-md-6">
-				<div class="jumbotron">
-					<strong>Nom: </strong><p>{{user.first_name}}</p>
-					<strong>Cognom: </strong><p>{{user.last_name}}</p>
-					<strong>Email: </strong><p>{{user.email}}</p>
-					<strong>Puntuació: </strong><p>{{user.usuari.punts}}</p>
-				</div>
-			</div>
-			
-		</div>
-	</div>
+<div class="row">
+<div class="col-md-6">
+<h1 class="text-center">{{user.username}}</h1>
+</div>
+<div clas="row col-md-12">
+<div class="col-md-6">
+<div class="jumbotron">
+<strong>Nom: </strong><p>{{user.first_name}}</p>
+<strong>Cognom: </strong><p>{{user.last_name}}</p>
+<strong>Email: </strong><p>{{user.email}}</p>
+<strong>Puntuació: </strong><p>{{user.usuari.punts}}</p>
+</div>
+</div>
+
+</div>
+</div>
 </div>-->
 {% endblock %}

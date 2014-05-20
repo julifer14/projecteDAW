@@ -11,24 +11,23 @@ from django.contrib.auth.models import User
 # Create your views here.
 @login_required
 def crearPregunta(request):
+    preg = pregunta()
+    preg.usuari = request.user
     if request.method == 'POST':
-        form = formulariPregunta(request.POST)
-        form.usuari = request.user
+        form = formulariPregunta(request.POST,instance = preg)
         if form.is_valid():
-            print form.usuari
             form.save()
             messages.success(request,'Pregunta introduida correctament')
             return HttpResponseRedirect(reverse('home'))
         else:
             messages.error(request, 'Hi ha hagut un error al introduir la pregunta')
-            return HttpResponseRedirect(reverse('home'))
+            #return HttpResponseRedirect(reverse('home'))
     else:
-        form = formulariPregunta()
+        form = formulariPregunta(instance = preg)
         
     camps_bootestrapejar =( 'tema', 'tipus','enunciat')
     for c in camps_bootestrapejar:
         form.fields[c].widget.attrs['class'] = 'form-control'
-    form.fields['usuari'].widget.attrs['hidden'] =''
     return render(request, 'crearPregunta.html', {'form':form,})
 
 @login_required
@@ -49,6 +48,12 @@ def crearTema(request):
         form.fields[c].widget.attrs['class'] = 'form-control'
     form.fields['nom'].widget.attrs['placeholder'] = 'Nom del tema'
     return render(request,'crearTema.html',{'form':form,})
+
+@login_required
+def randomExamen(request):
+    totesPreguntes = pregunta.objects.all()
+    return render(request,'preguntesRandom.html')
+
 @login_required
 def practicarTema(request, idTema):
     temeta = get_object_or_404(tema, pk = idTema)
