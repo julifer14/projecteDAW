@@ -1,37 +1,27 @@
-/*$(document).ready(function(){
- preguntes = $('.preguntes');
- alert(preguntes.length);
- for(i=0;i<preguntes.length;i++){
- pregunta = preguntes[i].value;
- alert(pregunta);
-
- }
-
- });
-
- *
- *
- * */
 window.onload = transformarText();
 
 function transformarText() {
+	alert("holahola")
 	var preguntetes = new Array();
+	var idPreguntes = new Array();
 	preguntes = document.getElementsByClassName('preguntes');
 	for ( i = 0; i < preguntes.length; i++) {
+		idPreguntes.push(preguntes[i].id);
 		preguntetes.push(preguntes[i].innerHTML);
 	}
 	//Un cop tinc les frases les esborro
 	$('#preguntes').empty();
-comptador = 1;
+	comptador = 1;
 	for ( i = 0; i < preguntetes.length; i++) {
 		pregunta = preguntetes[i];
 		alert(pregunta);
 		resultat = new Array();
 		variable = "";
 		comenca = false;
-		
+		resposta = "";
 		acabat = true;
-		$('#preguntes').append("<p class='preguntes list-group-item text-center' id='" + comptador + "'>");
+		
+		$('#preguntes').append("<p class='preguntes list-group-item text-center' id='" + idPreguntes[i] + "'>");
 		for ( j = 0; j < pregunta.length; j++) {
 
 			if (pregunta[j] == "[") {
@@ -40,7 +30,7 @@ comptador = 1;
 
 			
 			if (comenca==true) {
-				$('#' + comptador).append("<span>" + variable + "</span>");
+				$('#' + idPreguntes[i]).append("<span>" + variable + "</span>");
 				acabat = false;
 				comenca = false;
 				variable = "";
@@ -51,11 +41,15 @@ comptador = 1;
 					variable = variable + pregunta[j];
 				}
 			}
+			if(acabat == false){
+				resposta = resposta+pregunta[j];
+			}
 			if (pregunta[j] == "]") {
-				$('#'+comptador).append("<input type='text'>");
+				$('#'+idPreguntes[i]).append("<input type='text'>");
 				acabat = true;
 			}
 		}
-		comptador = comptador + 1;
+		$('#' + idPreguntes[i]).append("<span>" + variable + "</span>");
+		alert(resposta);
 	}
 }
