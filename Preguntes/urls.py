@@ -8,5 +8,4 @@ urlpatterns = patterns('',
     url(r'^preguntesTema/(?P<idTema>\d+)$', views.practicarTema, name='practicarTema'),
     url(r'^',views.ferPreguntes,name='ferPreguntes'),
     
-    #url(r'^logout$', views.logout_view, name='logout'),
 )

@@ -3,7 +3,6 @@
 
 
 {% block  title %}Llistat de temes{% endblock %}
-
 {% block localitzacio %}
 		<li>
 			<a href="{% url 'preguntes:ferPreguntes' %}">Preguntes</a>
@@ -22,11 +21,9 @@
 {% if preguntesTema %}
 <div class="container">
 	<ul>
-			<div class="list-group col-md-8 col-sm-offset-2 ">
+			<div id="preguntes" class="list-group col-md-8 col-sm-offset-2 ">
 			{% for pregunta in preguntesTema %}
-				<div class="list-group-item text-center">
-					<p><span id="codiEnunciat" style="display:none">{{pregunta.id}}</span>{{ pregunta.enunciat }} </p>		
-				</div>
+					<p class="preguntes list-group-item text-center"  id="{{pregunta.id}}">{{ pregunta.enunciat }}</p>		
 			{% endfor %}
 			</div>
 	</ul>
@@ -41,4 +38,9 @@
 		</button>
 		</a>
 </p>
-{% endif %} {% endblock %}
+{% endif %} 
+
+{% endblock %}
+
+
+{% block mesScripts %}<script src="{% static 'codi.js' %}"></script>{%endblock%}

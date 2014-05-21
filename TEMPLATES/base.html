@@ -96,7 +96,7 @@
 		<ol class="breadcrumb col-md-offset-1 col-md-10">
 			<span>Et trobes a: </span>
 			<li>
-				<a class="active">Home</a>
+				<a href="{% url 'home' %}">Home</a>
 			</li>
 			{% block localitzacio %}
 
@@ -132,5 +132,7 @@
 			});
 		</script>
 		{% endif %}
+		{% block mesScripts %}{%endblock%}
+		
 	</body>
 </html>

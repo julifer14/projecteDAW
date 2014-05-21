@@ -58,6 +58,7 @@ def randomExamen(request):
 def practicarTema(request, idTema):
     temeta = get_object_or_404(tema, pk = idTema)
     preguntesTema = pregunta.objects.filter(tema = idTema)
+    
     context = {'preguntesTema':preguntesTema,'tema':temeta}
     return render(request, 'preguntesTema.html',context)
 
