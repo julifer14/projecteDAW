@@ -1,7 +1,6 @@
 window.onload = transformarText();
 
 function transformarText() {
-	alert("holahola")
 	var preguntetes = new Array();
 	var idPreguntes = new Array();
 	preguntes = document.getElementsByClassName('preguntes');

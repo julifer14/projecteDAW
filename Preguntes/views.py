@@ -58,7 +58,10 @@ def randomExamen(request):
 def practicarTema(request, idTema):
     temeta = get_object_or_404(tema, pk = idTema)
     preguntesTema = pregunta.objects.filter(tema = idTema)
-    tip = preguntesTema[0].tipus
+    try:
+        tip = preguntesTema[0].tipus
+    except:
+        tip = ""
     print tip
     context = {'preguntesTema':preguntesTema,'tema':temeta,'tipus':tip}
     return render(request, 'preguntesTema.html',context)
@@ -71,3 +74,7 @@ def llistaTemes(request):
 def ferPreguntes(request):
     #temes = tema.objects.all()
     return render(request,'preguntes.html')
+
+def llistatPreguntes(request):
+    preguntes = pregunta.objects.all()
+    return render(request,'llistatPreguntes.html',{'preguntes':preguntes})
