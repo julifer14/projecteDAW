@@ -7,6 +7,8 @@ from django.http.response import HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
 from Preguntes.models import tema, pregunta
 from django.contrib.auth.models import User
+from django.core import serializers
+from django.http import HttpResponse
 
 # Create your views here.
 @login_required
@@ -78,3 +80,14 @@ def ferPreguntes(request):
 def llistatPreguntes(request):
     preguntes = pregunta.objects.all()
     return render(request,'llistatPreguntes.html',{'preguntes':preguntes})
+
+def respostes(request):
+    if request.GET.has_key('idPregunta'):
+        idPreg = request.GET['idPregunta']
+        pregun = get_object_or_404(pregunta, pk = idPreg)
+        perSer = {'id':pregun.id,'enunciat':pregun.enunciat}
+        print perSer
+        preguntesJson = serializers.serialize('json',perSer)
+        return HttpResponse(preguntesJson,content_type="application/json")
+    else:
+        return HttpResponse("Error")

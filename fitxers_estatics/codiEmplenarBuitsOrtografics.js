@@ -13,14 +13,14 @@ function transformarText() {
 	comptador = 1;
 	for ( i = 0; i < preguntetes.length; i++) {
 		pregunta = preguntetes[i];
-		alert(pregunta);
+		//alert(pregunta);
 		resultat = new Array();
 		variable = "";
 		comenca = false;
 		resposta = "";
 		acabat = true;
 		
-		$('#preguntes').append("<p class='preguntes list-group-item text-center' id='" + idPreguntes[i] + "'>");
+		$('#preguntes').append("<p id='"+i+"'class='list-group-item'>Emplena els buits</p><p class='preguntes list-group-item text-center' id='" + idPreguntes[i] + "'>");
 		for ( j = 0; j < pregunta.length; j++) {
 
 			if (pregunta[j] == "[") {
@@ -36,7 +36,7 @@ function transformarText() {
 			}
 			if (comenca == false) {
 				if (acabat == true) {
-					console.log(variable);
+					//console.log(variable);
 					variable = variable + pregunta[j];
 				}
 			}
@@ -44,11 +44,11 @@ function transformarText() {
 				resposta = resposta+pregunta[j];
 			}
 			if (pregunta[j] == "]") {
-				$('#'+idPreguntes[i]).append("<input type='text'>");
+				$('#'+idPreguntes[i]).append("<input class='resposta' type='text'>");
 				acabat = true;
 			}
 		}
 		$('#' + idPreguntes[i]).append("<span>" + variable + "</span>");
-		alert(resposta);
+		//alert(resposta);
 	}
 }
