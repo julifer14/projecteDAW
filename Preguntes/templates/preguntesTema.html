@@ -1,64 +1,80 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
-
 {% block  title %}Llistat de temes{% endblock %}
 {% block localitzacio %}
-		<li>
-			<a href="{% url 'preguntes:ferPreguntes' %}">Preguntes</a>
-		</li>
-		<li>
-			<a href="{% url 'preguntes:llistatTemes' %}">Llistat Temes</a>
-		</li>
-		<li>
-			<a class="active">Tema: {{ tema.nom }}</a>
-		</li>
+<li>
+	<a href="{% url 'preguntes:ferPreguntes' %}">Preguntes</a>
+</li>
+<li>
+	<a href="{% url 'preguntes:llistatTemes' %}">Llistat Temes</a>
+</li>
+<li>
+	<a class="active">Tema: {{ tema.nom }}</a>
+</li>
 {% endblock %}
 
-{% block content %} 
-
-
-
+{% block content %}
 
 <h1>Preguntes disponibles del tema {{tema.nom}}</h1>
 <br>
 {% if preguntesTema %}
 <div class="container">
+	<div id="taulaResultats" class="table-responsive">
+	<table class=" table-bordered table col-md-3 table-condensed">
+		<tr class="info">
+			<td>Nota: </td><td id="nota"></td>
+		</tr>
+		<tr  class="success">
+			<td>Respostes Correctes: </td><td id="correctes"></td>
+		</tr>
+		<tr class="danger">
+			<td>Respostes Incorrectes: </td><td id="incorrectes"></td>
+		</tr>
+	</table>
+	</div>
+
 	<ul>
-			<div id="preguntes" class="list-group col-md-8 col-sm-offset-2 ">
+		<div id="preguntes" class="list-group col-md-9 col-sm-offset-1 ">
 			{% for pregunta in preguntesTema %}
-					<p class="preguntes list-group-item text-center"  id="{{pregunta.id}}">{{ pregunta.enunciat }}</p>		
+			<p class="preguntes list-group-item text-justify"  id="{{pregunta.id}}">
+				{{ pregunta.enunciat }}
+			</p>
 			{% endfor %}
-			</div>
+		</div>
 	</ul>
-	<button class="btn btn-info" value="Enviar Dades" id="validarPreguntes">Enviar Dades</button>
+	<button class="btn btn-lg btn-info col-md-2 col-md-offset-5" value="Enviar Dades" id="validarPreguntes">
+		Enviar Dades
+	</button>
 </div>
 {% else %}
 <p class="col-md-5 col-md-offset-3 text-center">
-	En aquest moment no disposem de cap pregunta d'aquest tema.<br>
-	<strong>Ets professor? Crea'n alguna!</strong><br><br>
+	En aquest moment no disposem de cap pregunta d'aquest tema.
+	<br>
+	<strong>Ets professor? Crea'n alguna!</strong>
+	<br>
+	<br>
 	<a href="{% url 'preguntes:crearPregunta' %}">
-		<button class="btn btn-info">
-			Crear Pregunta!
-		</button>
-		</a>
+	<button class="btn btn-info">
+		Crear Pregunta!
+	</button> </a>
 </p>
-{% endif %} 
+{% endif %}
 
 {% endblock %}
 
 {% block mesScripts %}
-	<script src="{% static 'codiGeneral.js' %}"></script>
-	{% if tipus == "EmplenarBuitsOrtografics" %}
-		<script src="{% static 'codiEmplenarBuitsOrtografics.js' %}"></script>
-	{% endif %}
-	{% if tipus == "CompletarGramatica" %}
-		<script src="{% static 'codiCompletarGramatica.js' %}"></script>
-	{% endif %}
-	{% if tipus == "Test" %}
-		<script src="{% static 'codiTest.js' %}"></script>
-	{% endif %}
-	{% if tipus == "Relacionar" %}
-		<script src="{% static 'codiRelacionar.js' %}"></script>
-	{% endif %}
+<script src="{% static 'codiGeneral.js' %}"></script>
+{% if tipus == "EmplenarBuitsOrtografics" %}
+<script src="{% static 'codiEmplenarBuitsOrtografics.js' %}"></script>
+{% endif %}
+{% if tipus == "CompletarGramatica" %}
+<script src="{% static 'codiCompletarGramatica.js' %}"></script>
+{% endif %}
+{% if tipus == "Test" %}
+<script src="{% static 'codiTest.js' %}"></script>
+{% endif %}
+{% if tipus == "Relacionar" %}
+<script src="{% static 'codiRelacionar.js' %}"></script>
+{% endif %}
 {% endblock %}

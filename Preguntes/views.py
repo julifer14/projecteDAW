@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from Preguntes.forms import formulariPregunta, formulariTema
+from Preguntes.forms import formulariPregunta, formulariTema, formulariPuntuacio
 from django.contrib import messages
 from django.http.response import HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
@@ -31,6 +31,16 @@ def crearPregunta(request):
     for c in camps_bootestrapejar:
         form.fields[c].widget.attrs['class'] = 'form-control'
     return render(request, 'crearPregunta.html', {'form':form,})
+@login_required
+def afegirPuntuacio(request):
+    if request.method == 'POST':
+        ##form =
+        pass 
+    else:
+        messages.error(request,'No tens permís per veure això!')
+        return HttpResponseRedirect(reverse('home'))
+        #form = formulariPuntuacio()
+    #return render(request,'puntuacio.html',{'form':form})
 
 @login_required
 def crearTema(request):

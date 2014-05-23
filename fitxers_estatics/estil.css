@@ -1,0 +1,9 @@
+#preguntes, .resposta{
+	margin-bottom: 5px !important;
+}
+.respostaErronea{
+	border-color: red !important;
+}
+.respostaCorrecte{
+	border-color: green !important;
+}

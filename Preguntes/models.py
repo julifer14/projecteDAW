@@ -32,8 +32,8 @@ class puntuacio(models.Model):
     pregunta = models.ForeignKey(pregunta)
     usuari = models.ForeignKey(User)
     notaUsuari = models.IntegerField()
-    data = models.DateField()
-    hora = models.TimeField()
+    data = models.DateField(auto_now_add=True,editable=False)
+    hora = models.TimeField(auto_now_add=True,editable=False)
     correctes = models.IntegerField()
     incorrectes = models.IntegerField()
     
