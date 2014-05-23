@@ -11,9 +11,7 @@ function validarDades(){
 
 $(document).ready(function(){
 	$('#validarPreguntes').click(function(){
-		$.ajax({
-			
-		});
+		
 	});
 });
 

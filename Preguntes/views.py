@@ -81,13 +81,13 @@ def llistatPreguntes(request):
     preguntes = pregunta.objects.all()
     return render(request,'llistatPreguntes.html',{'preguntes':preguntes})
 
-def respostes(request):
-    if request.GET.has_key('idPregunta'):
-        idPreg = request.GET['idPregunta']
-        pregun = get_object_or_404(pregunta, pk = idPreg)
-        perSer = {'id':pregun.id,'enunciat':pregun.enunciat}
-        print perSer
-        preguntesJson = serializers.serialize('json',perSer)
-        return HttpResponse(preguntesJson,content_type="application/json")
-    else:
-        return HttpResponse("Error")
+#def respostes(request):
+#    if request.GET.has_key('idPregunta'):
+#        idPreg = request.GET['idPregunta']
+#        pregun = get_object_or_404(pregunta, pk = idPreg)
+#        perSer = {'id':pregun.id,'enunciat':pregun.enunciat}
+#        print perSer
+#        preguntesJson = serializers.serialize('json',perSer)
+#        return HttpResponse(preguntesJson,content_type="application/json")
+#    else:
+#        return HttpResponse("Error")

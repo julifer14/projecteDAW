@@ -34,6 +34,8 @@ class puntuacio(models.Model):
     notaUsuari = models.IntegerField()
     data = models.DateField()
     hora = models.TimeField()
+    correctes = models.IntegerField()
+    incorrectes = models.IntegerField()
     
     def __unicode__(self):
         return "Usuari " + self.usuari + " pregunta: " + self.pregunta.id + " punts " + self.notaUsuari 
