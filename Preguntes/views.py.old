@@ -5,12 +5,13 @@ from Preguntes.forms import formulariPregunta, formulariTema, formulariPuntuacio
 from django.contrib import messages
 from django.http.response import HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
-from Preguntes.models import tema, pregunta, tipus
+from Preguntes.models import tema, pregunta
 from django.contrib.auth.models import User
 from django.core import serializers
 from django.http import HttpResponse
 import json
 
+# Create your views here.
 @login_required
 def crearPregunta(request):
     preg = pregunta()
@@ -23,6 +24,7 @@ def crearPregunta(request):
             return HttpResponseRedirect(reverse('home'))
         else:
             messages.error(request, 'Hi ha hagut un error al introduir la pregunta')
+            #return HttpResponseRedirect(reverse('home'))
     else:
         form = formulariPregunta(instance = preg)
         
@@ -46,6 +48,9 @@ def afegirPuntuacio(request):
     else:
         messages.error(request,'No tens permís per veure això!')
         return HttpResponseRedirect(reverse('home'))
+        #form = formulariPuntuacio()
+    #return render(request,'puntuacio.html',{'form':form})
+
 
 @login_required
 def crearTema(request):
@@ -66,32 +71,26 @@ def crearTema(request):
     form.fields['nom'].widget.attrs['placeholder'] = 'Nom del tema'
     return render(request,'crearTema.html',{'form':form,})
 
-
 @login_required
 def randomExamen(request):
     totesPreguntes = pregunta.objects.all()
     return render(request,'preguntesRandom.html')
 
 @login_required
-def practicarTipus(request, tipusPregunta):
-    tip = get_object_or_404(tipus,pk=tipusPregunta)
+def practicarTema(request, tipusPregunta):
+    print tipusPregunta
+    #temeta = get_object_or_404(tema, pk = idTema)
     try:
-        preguntesTipus = pregunta.objects.filter(tipus = tipusPregunta)
+        preguntesTema = pregunta.objects.filter(tipus = tipusPregunta)
     except:
-        preguntesTipus = ""
-    context = {'preguntesTipus':preguntesTipus,'tipus':tip}
-    return render(request, 'preguntesTipus.html',context)
+        preguntesTema = ""
+    context = {'preguntesTema':preguntesTema}
+    return render(request, 'preguntesTema.html',context)
 
 def llistaTemes(request):
     temes = tema.objects.all()
     context = {'temes':temes}
     return render(request,'llistatTemes.html',context)
-
-def llistatTipus(request):
-    tipusets = tipus.objects.all()
-    print tipusets
-    context = {'tipus':tipusets}
-    return render(request,'llistatTipus.html',context)
 
 def ferPreguntes(request):
     #temes = tema.objects.all()

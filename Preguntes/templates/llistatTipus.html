@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block  title %}Llistat de temes{% endblock %}
+
+{% block localitzacio %}
+		<li>
+			<a href="{% url 'preguntes:ferPreguntes' %}">Preguntes</a>
+		</li>
+		<li>
+			<a class="active">Llistat de Tipus</a>
+		</li>
+{% endblock %}
+
+{% block content %} 
+<h1>Temes disponibles</h1>
+<strong>Escull el tipus que vulguis pràcticar</strong><br><br>
+{% if tipus %}
+<div class="container">
+	<ul>
+			<div class="list-group col-md-8 col-sm-offset-2 ">
+			{% for tip in tipus %}
+				<div class="list-group-item text-center">
+					<a href="{% url 'preguntes:practicarTipus' tip.id %}"><p>{{ tip.nom }} </p></a>
+				</div>
+			{% endfor %}
+			</div>
+	</ul>
+</div>
+{% else %}
+<p>
+	No hi ha cap pregunta disponible del tema
+</p>
+{% endif %} {% endblock %}
+

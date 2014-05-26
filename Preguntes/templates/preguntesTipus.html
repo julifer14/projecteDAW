@@ -7,18 +7,18 @@
 	<a href="{% url 'preguntes:ferPreguntes' %}">Preguntes</a>
 </li>
 <li>
-	<a href="{% url 'preguntes:llistatTemes' %}">Llistat Temes</a>
+	<a href="{% url 'preguntes:llistatTipus' %}">Llistat Temes</a>
 </li>
 <li>
-	<a class="active">Tema: {{ tema.nom }}</a>
+	<a class="active">Tipus: {{ tipus }}</a>
 </li>
 {% endblock %}
 
 {% block content %}
 
-<h1>Preguntes disponibles del tema {{tema.nom}}</h1>
+<h1>Preguntes disponibles del tipus {{tipus.nom}}</h1>
 <br>
-{% if preguntesTema %}
+{% if preguntesTipus %}
 <div class="container">
 	<div id="message"></div>
 	<div id="taulaResultats" class="table-responsive">
@@ -37,7 +37,7 @@
 
 	<ul>
 		<div id="preguntes" class="list-group col-md-9 col-sm-offset-1 ">
-			{% for pregunta in preguntesTema %}
+			{% for pregunta in preguntesTipus %}
 			<p class="preguntes list-group-item text-justify"  id="{{pregunta.id}}">
 				{{ pregunta.enunciat }}
 			</p>
@@ -69,16 +69,16 @@
 {% block mesScripts %}
 <script src="{% static 'codiGeneral.js' %}"></script>
 <script src="{% static 'jquery-cookie-master/jquery.cookie.js'%}"></script>
-{% if tipus == "EmplenarBuitsOrtografics" %}
+{% if tipus.nom == "EmplenarBuitsOrtografics" %}
 <script src="{% static 'codiEmplenarBuitsOrtografics.js' %}"></script>
 {% endif %}
-{% if tipus == "CompletarGramatica" %}
+{% if tipus.nom == "CompletarGramatica" %}
 <script src="{% static 'codiCompletarGramatica.js' %}"></script>
 {% endif %}
-{% if tipus == "Test" %}
+{% if tipus.nom == "Test" %}
 <script src="{% static 'codiTest.js' %}"></script>
 {% endif %}
-{% if tipus == "Relacionar" %}
+{% if tipus.nom == "Relacionar" %}
 <script src="{% static 'codiRelacionar.js' %}"></script>
 {% endif %}
 {% endblock %}

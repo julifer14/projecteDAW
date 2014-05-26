@@ -8,18 +8,17 @@ class tema(models.Model):
     
     def __unicode__(self):
         return self.nom
-
-tipus = (
-    ('EmplenarBuitsOrtografics','Emplenar Buits d\'ortografia'),
-    ('CompletarGramatica','Completar gramatica'),
-    ('Test','Test'),
-    ('Relacionar','Relacionar'),
-    )
     
+class tipus(models.Model):
+    nom = models.CharField(max_length=100,unique= True)
+    
+    def __unicode__(self):
+        return self.nom
+
 class pregunta(models.Model):
     tema = models.ForeignKey(tema)
     usuari = models.ForeignKey(User)
-    tipus = models.CharField(max_length=100,choices=tipus)
+    tipus = models.ForeignKey(tipus)
     enunciat =  models.TextField(max_length=500)
 
     
