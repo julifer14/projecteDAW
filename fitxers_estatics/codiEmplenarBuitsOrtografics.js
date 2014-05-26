@@ -2,7 +2,7 @@ var preguntetes = new Array();
 var idPreguntes = new Array();
 var respostes = new Array();
 $(document).ready(function() {
-	
+
 	/*
 	 * ******************Generar inputs**************************
 	 */
@@ -54,15 +54,14 @@ $(document).ready(function() {
 		$('#' + idPreguntes[i]).append("<span>" + variable + "</span>");
 		respostes.push(resposta);
 	}
-	
+
 	/*
 	 * ********************************************
 	 */
 	/*
 	 * ******** Corretgir preguntes ***********************
 	 */
-	
-	
+
 	$('#validarPreguntes').click(function() {
 		res = document.getElementsByClassName('resposta');
 		//Array de totes les respostes de l'suauri
@@ -74,28 +73,30 @@ $(document).ready(function() {
 		/*
 		 * Primer preparem l'array de respostes que haviem guardat abans
 		 */
-		for(i= 0; i<respostes.length;i++){
+		for ( i = 0; i < respostes.length; i++) {
 			respostesCorrectes = respostes[i].split("]");
-			
-			for(j=0;j<respostesCorrectes.length;j++){
-				if(respostesCorrectes[j] != ""){
+
+			for ( j = 0; j < respostesCorrectes.length; j++) {
+				if (respostesCorrectes[j] != "") {
 					respostesCorrectes[j] = respostesCorrectes[j].substr(1);
 				}
 			}
 			respostes[i] = respostesCorrectes;
 		}
 		//console.log(respostes);
-		
-		for(r = 0;r<respostes.length;r++){
+		notaMitjana=0;
+		cor=0;
+		totalPreguntes=0;
+		for ( r = 0; r < respostes.length; r++) {
 			correctes = 0;
 			comptador = 0;
-			for(e = 0; e<respostes[r].length-1;e++){
-				if(respostes[r][e]== respostesUsuari[comptador]){
+			for ( e = 0; e < respostes[r].length - 1; e++) {
+				if (respostes[r][e] == respostesUsuari[comptador]) {
 					//console.log("correcte");
 					//console.log(res);
 					//console.log(respostes[r][e] + " "+ respostesUsuari[comptador]);
 					correctes++;
-				}else{
+				} else {
 					//console.log("-----incorrecte");
 					//console.log(res);
 					//console.log(respostes[r][e] +" - " +respostesUsuari[comptador]);
@@ -103,46 +104,46 @@ $(document).ready(function() {
 				//console.log("--------------------------");
 				comptador++;
 			}
-			
-			
+
 			//Dades a enviar per ajax al servidor
-			notaPregunta = 10/comptador;
-			nota=trunc(correctes*notaPregunta);
-			
-			
+			notaPregunta = 10 / comptador;
+			nota = trunc(correctes * notaPregunta);
+
 			$.ajax({
-                 type:"POST",
-                 url:"/preguntes/afegirPuntuacio",
-                 dataType: 'json',
-                 data: {
-                 		'csrfmiddlewaretoken': $.cookie("csrftoken"),
-                        'pregunta': idPreguntes[r],
-                        'usuari':$('#idUsuari').text(),
-                        'notaUsuari':nota,
-                        'correctes':correctes,
-                        'incorrectes': (comptador-correctes),
-                        },
-                 success: function(json){
-                 	console.log("sss" + json);
-                     $('#message').html("<h2>Form Submitted!</h2>");
-                 },
-                 error: function(xhr,errmsg,err){
-                 	alert(xhr.status + ": " + xhr.responseText);
-                 }
-            });
-            $('#nota').text(nota);
-			$('#correctes').text(correctes);
-			$('#incorrectes').text(comptador-correctes);
-			
+				type : "POST",
+				url : "/preguntes/afegirPuntuacio",
+				dataType : 'json',
+				data : {
+					'csrfmiddlewaretoken' : $.cookie("csrftoken"),
+					'pregunta' : idPreguntes[r],
+					'usuari' : $('#idUsuari').text(),
+					'notaUsuari' : nota,
+					'correctes' : correctes,
+					'incorrectes' : (comptador - correctes),
+				},
+				success : function(json) {
+					//console.log("sss" + json);
+					$('#message').html("<h2>Form Submitted!</h2>");
+				},
+				error : function(xhr, errmsg, err) {
+					//alert(xhr.status + ": " + xhr.responseText);
+				}
+			});
+			notaMitjana = notaMitjana+nota;
+			cor = cor+correctes;
+			totalPreguntes = totalPreguntes+ comptador;
+			numExercici = r+1;
+
 		}
-	
-		$('.resposta').attr('disabled','disabled');
+		
+		mitjana= trunc(notaMitjana / numExercici);
+		$('#nota').text(mitjana);
+		$('#correctes').text(cor);
+		$('#incorrectes').text(totalPreguntes - cor);
+		$('.resposta').attr('disabled', 'disabled');
 		$('#taulaResultats').show();
-		
-		$('#validarPreguntes').attr('class','disabled btn btn-lg btn-info col-md-2 col-md-offset-5');
-		
-		
-		
+		$('#validarPreguntes').attr('class', 'disabled btn btn-lg btn-info col-md-2 col-md-offset-5');
+
 	});
 });
 

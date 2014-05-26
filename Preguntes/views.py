@@ -35,12 +35,11 @@ def crearPregunta(request):
 
 
 def afegirPuntuacio(request):
-    print "aaaaa"
     if request.method == 'POST':
         form = formulariPuntuacio(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request,'Dades enviadades correctament')
+            #messages.success(request,'Dades enviadades correctament')
             msg = "ok"
         else:
             msg = "fail"
