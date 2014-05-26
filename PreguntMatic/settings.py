@@ -52,6 +52,8 @@ INSTALLED_APPS = (
     'Usuaris',
     'Preguntes',
     'eines',
+    'dajaxice',
+    'dajax',
 )
 
 MIDDLEWARE_CLASSES = (

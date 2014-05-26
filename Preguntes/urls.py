@@ -7,6 +7,6 @@ urlpatterns = patterns('',
     url(r'^llistatTemes$',views.llistaTemes,name='llistatTemes'),
     url(r'^preguntesTema/(?P<idTema>\d+)$', views.practicarTema, name='practicarTema'),
     url(r'^llistatPreguntes$',views.llistatPreguntes,name='llistatPreguntes'),
-    url(r'^afegirPuntuacio', views.afegirPuntuacio, name='afegirPuntuacio'),
+    url(r'^afegirPuntuacio$', views.afegirPuntuacio, name='afegirPuntuacio'),
     url(r'^$',views.ferPreguntes,name='ferPreguntes'),
 )

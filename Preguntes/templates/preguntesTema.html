@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
-{% block  title %}Llistat de temes{% endblock %}
+{% block  title %}Tema: {{ tema.nom }}{% endblock %}
 {% block localitzacio %}
 <li>
 	<a href="{% url 'preguntes:ferPreguntes' %}">Preguntes</a>
@@ -20,18 +20,19 @@
 <br>
 {% if preguntesTema %}
 <div class="container">
+	<div id="message"></div>
 	<div id="taulaResultats" class="table-responsive">
-	<table class=" table-bordered table col-md-3 table-condensed">
-		<tr class="info">
-			<td>Nota: </td><td id="nota"></td>
-		</tr>
-		<tr  class="success">
-			<td>Respostes Correctes: </td><td id="correctes"></td>
-		</tr>
-		<tr class="danger">
-			<td>Respostes Incorrectes: </td><td id="incorrectes"></td>
-		</tr>
-	</table>
+		<table class=" table-bordered table col-md-3 table-condensed">
+			<tr class="info">
+				<td>Nota: </td><td id="nota"></td>
+			</tr>
+			<tr  class="success">
+				<td>Respostes Correctes: </td><td id="correctes"></td>
+			</tr>
+			<tr class="danger">
+				<td>Respostes Incorrectes: </td><td id="incorrectes"></td>
+			</tr>
+		</table>
 	</div>
 
 	<ul>
@@ -43,9 +44,11 @@
 			{% endfor %}
 		</div>
 	</ul>
-	<button class="btn btn-lg btn-info col-md-2 col-md-offset-5" value="Enviar Dades" id="validarPreguntes">
+
+	<button class="btn  btn-info col-md-3 col-md-offset-5" value="Enviar Dades" id="validarPreguntes">
 		Enviar Dades
 	</button>
+
 </div>
 {% else %}
 <p class="col-md-5 col-md-offset-3 text-center">
@@ -65,6 +68,7 @@
 
 {% block mesScripts %}
 <script src="{% static 'codiGeneral.js' %}"></script>
+<script src="{% static 'jquery-cookie-master/jquery.cookie.js'%}"></script>
 {% if tipus == "EmplenarBuitsOrtografics" %}
 <script src="{% static 'codiEmplenarBuitsOrtografics.js' %}"></script>
 {% endif %}

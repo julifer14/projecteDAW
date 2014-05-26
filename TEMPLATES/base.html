@@ -66,6 +66,7 @@
 					{% if user.is_authenticated %}
 					<!-- USUARI AUTENTICAT! -->
 					<ul class="nav navbar-nav navbar-right">
+						<p id="idUsuari" style="display:none">{{user.id}}</p>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 								<span class="glyphicon glyphicon-user"></span> Hola, {{user.first_name}} {{user.last_name}}</a>

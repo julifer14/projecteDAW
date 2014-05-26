@@ -9,6 +9,7 @@ from Preguntes.models import tema, pregunta
 from django.contrib.auth.models import User
 from django.core import serializers
 from django.http import HttpResponse
+import json
 
 # Create your views here.
 @login_required
@@ -31,16 +32,26 @@ def crearPregunta(request):
     for c in camps_bootestrapejar:
         form.fields[c].widget.attrs['class'] = 'form-control'
     return render(request, 'crearPregunta.html', {'form':form,})
-@login_required
+
+
 def afegirPuntuacio(request):
+    print "aaaaa"
     if request.method == 'POST':
-        ##form =
-        pass 
+        form = formulariPuntuacio(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'Dades enviadades correctament')
+            msg = "ok"
+        else:
+            msg = "fail"
+        return HttpResponse(msg)
+            
     else:
         messages.error(request,'No tens permís per veure això!')
         return HttpResponseRedirect(reverse('home'))
         #form = formulariPuntuacio()
     #return render(request,'puntuacio.html',{'form':form})
+
 
 @login_required
 def crearTema(request):

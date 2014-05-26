@@ -1,4 +1,4 @@
-function validarDades(){
+/*function validarDades(){
 	numPreguntes = document.getElementsByClassName('preguntes').length;
 	//alert("Hi han " + numPreguntes + " preguntes");
 	respostes = document.getElementsByClassName('resposta');
@@ -13,5 +13,5 @@ $(document).ready(function(){
 	$('#validarPreguntes').click(function(){
 		
 	});
-});
+});*/
 
