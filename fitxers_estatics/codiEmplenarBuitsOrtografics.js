@@ -59,7 +59,7 @@ $(document).ready(function() {
 	 * ********************************************
 	 */
 	/*
-	 * ******** Corretgir preguntes ***********************
+	 * ******** Corregir preguntes ***********************
 	 */
 
 	$('#validarPreguntes').click(function() {
@@ -92,16 +92,8 @@ $(document).ready(function() {
 			comptador = 0;
 			for ( e = 0; e < respostes[r].length - 1; e++) {
 				if (respostes[r][e] == respostesUsuari[comptador]) {
-					//console.log("correcte");
-					//console.log(res);
-					//console.log(respostes[r][e] + " "+ respostesUsuari[comptador]);
 					correctes++;
-				} else {
-					//console.log("-----incorrecte");
-					//console.log(res);
-					//console.log(respostes[r][e] +" - " +respostesUsuari[comptador]);
 				}
-				//console.log("--------------------------");
 				comptador++;
 			}
 
