@@ -7,3 +7,6 @@
 .respostaCorrecte{
 	border-color: green !important;
 }
+.seguit{
+	display: inline-block !important;
+}

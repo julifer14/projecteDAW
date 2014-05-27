@@ -1,14 +1,23 @@
 $(document).ready(function() {
 
 	var preguntes = document.getElementsByClassName('preguntes');
+	//Cada pregunta el numero d'apartats que té
+	var apartatsPerPregunta = new Array();
+	//Enunciat de les preguntes masculi | femeni
 	var enunciatPreguntes = new Array();
-	for(a = 0;a<preguntes.length;a++){
-		enunciatPreguntes.push(preguntes.innerHTML);
-	}
-	
-	masculins = new Array();
+	//L\'id de cada pregunta amb sintonia amb l'array d\'enunciats
 	var idPreguntes = new Array();
+	//Tots els masculins del exercici (els que es mostren)
+	masculins = new Array();
+	//Tots els femenins (els no es mostren), util per a corregir
 	femenins = new Array();
+
+	for ( a = 0; a < preguntes.length; a++) {
+
+		enunciatPreguntes.push(preguntes[a].innerHTML);
+		idPreguntes.push(preguntes[a].id);
+		//console.log(enunciatPreguntes[a]);
+	}
 
 	$('#preguntes').empty();
 	$('#taulaResultats').hide();
@@ -16,14 +25,12 @@ $(document).ready(function() {
 	/*
 	 * Guardar les dades correctes
 	 */
-	for ( i = 0; i < preguntes.length; i++) {
+	for ( i = 0; i < enunciatPreguntes.length; i++) {
 		//Agafar el primer exercici
-		p = preguntes[i].innerHTML;
+		p = enunciatPreguntes[i];
 		var preguntetes = new Array();
-		idPreguntes.push(preguntes[i].id);
-		for ( g = 0; g < p.length; g++) {
-			preguntetes = p.split(".");
-		}
+		preguntetes = p.split(".");
+		apartatsPerPregunta.push(preguntetes.length);
 		//Cada exercici té diferents "lletres" (a,b,c...)
 		for ( j = 0; j < preguntetes.length - 1; j++) {
 			//Ara cada "frase" s'ha de diferenciar la part masculina de la femenina
@@ -44,34 +51,51 @@ $(document).ready(function() {
 			femenins.push(femen);
 		}
 	}
-	//ES GUARDEN BE
+	//ES GUARDEN BÉ
 	/*
 	 * Generar inputs
 	 */
+	var comptador = 0;
 	for ( p = 0; p < enunciatPreguntes.length; p++) {
-		alert(p);
 		//Genero un p per cada pregunta
-		$('#preguntes').append("<p id='p" + p + "'class='list-group-item-info list-group-item'>Emplena els buits</p>");
-		//"<p class='preguntes list-group-item text-justify' id='" + idPreguntes[p] + "'>fff</p>");
+		$('#preguntes').append("<p class='list-group-item-info list-group-item'>Completa amb la paraula o paraules que falten</p>" + "<p class='preguntes list-group-item text-justify' id='" + idPreguntes[p] + "'>");
 
-		/*for(i=0;i<masculins.length;i++){
-		 //Per cada masculi creo un span i l'id serà la posició que té a l'array per poder corregir
-		 $('#'+idPreguntes[p]).append("<span id='"+i+"'>"+masculins[i]+"</span>");
-		 }*/
+		for ( i = 0; i < apartatsPerPregunta[p] - 1; i++) {
+			//Per cada masculi creo un span i l'id serà la posició que té a l'array per poder corregir
+			$('#' + idPreguntes[p]).append("<span>" + masculins[comptador] + "</span>");
+			for ( j = 0; j < femenins[comptador].length; j++) {
+				$('#' + idPreguntes[p]).append("<input class='resposta seguit' type='text' id='" + comptador + "-" + j + "'><br>");
+			}
+			comptador++;
+		}
+
 	}
-	
-	
-	
-	
-	
+
 	$('#validarPreguntes').click(function() {
 		res = document.getElementsByClassName('resposta');
-		//Array de totes les respostes de l'suauri
-		respostesUsuari = new Array();
-		for ( i = 0; i < res.length; i++) {
-			respostesUsuari.push(res[i].value.trim());
+		console.log(res);
+		comptador = 0;
+		//de totes les variables corregire primer un exercici em quedo el valor d'elles i el comparo amb el correcte
+		for ( i = 0; i < masculins.length; i++) {
+			for ( j = 0; j < femenins[i].length; j++) {
+				console.log(res[j].value.trim() + " - " + femenins[i][j]);	
+				if (res[i].value.trim() == femenins[i][j]) {
+					
+				}
+			}
 		}
-		console.log(respostesUsuari);
+
+		//Array de totes les respostes de l'suauri
+		/*var comptador = 0;
+		 for ( p = 0; p < enunciatPreguntes.length; p++) {
+		 respostesUsuari = new Array();
+		 for ( i = 0; i < apartatsPerPregunta[p]; i++) {
+		 respostesUsuari.push(res[comptador].value.trim());
+		 comptador++;
+		 }
+		 console.log(respostesUsuari);
+		 console.log("-------");
+		 }*/
 	});
 
 });

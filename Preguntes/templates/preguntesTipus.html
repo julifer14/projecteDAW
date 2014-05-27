@@ -34,17 +34,27 @@
 			</tr>
 		</table>
 	</div>
-
-	<ul>
-		<div id="preguntes" class="list-group col-md-9 col-sm-offset-1 ">
-			{% for pregunta in preguntesTipus %}
-			<p class="preguntes list-group-item text-justify"  id="{{pregunta.id}}">
-				{{ pregunta.enunciat }}
+	<div  class="row">
+		<ul class="list-group col-md-2">
+			<p class='list-group-item-info list-group-item'>
+				Llistat de temes:
 			</p>
-			{% endfor %}
-		</div>
-	</ul>
-
+			{% for pregunta in preguntesTipus %}
+			<p class="list-group-item text-justify">
+				{{pregunta.id}}.- {{ pregunta.tema }}
+			</p>
+			{%endfor%}
+		</ul>
+		<ul>
+			<div id="preguntes" class="list-group col-md-9">
+				{% for pregunta in preguntesTipus %}
+				<p class="preguntes list-group-item text-justify"  id="{{pregunta.id}}">
+					{{ pregunta.enunciat }}
+				</p>
+				{% endfor %}
+			</div>
+		</ul>
+	</div>
 	<button class="btn  btn-info col-md-3 col-md-offset-5" value="Enviar Dades" id="validarPreguntes">
 		Enviar Dades
 	</button>
