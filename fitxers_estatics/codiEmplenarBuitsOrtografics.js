@@ -84,9 +84,9 @@ $(document).ready(function() {
 			respostes[i] = respostesCorrectes;
 		}
 		//console.log(respostes);
-		notaMitjana=0;
-		cor=0;
-		totalPreguntes=0;
+		notaMitjana = 0;
+		cor = 0;
+		totalPreguntes = 0;
 		for ( r = 0; r < respostes.length; r++) {
 			correctes = 0;
 			comptador = 0;
@@ -121,14 +121,34 @@ $(document).ready(function() {
 					//alert(xhr.status + ": " + xhr.responseText);
 				}
 			});
-			notaMitjana = notaMitjana+nota;
-			cor = cor+correctes;
-			totalPreguntes = totalPreguntes+ comptador;
-			numExercici = r+1;
+
+			if (nota >= 5) {
+				$.ajax({
+					type : "POST",
+					url : "/usuaris/afegirPuntsUsuari",
+					dataType : 'json',
+					data : {
+						'csrfmiddlewaretoken' : $.cookie("csrftoken"),
+						'punts' : 5,
+					},
+					success : function(json) {
+						//console.log("sss" + json);
+						$('#message').html("<h2>Form Submitted!</h2>");
+					},
+					error : function(xhr, errmsg, err) {
+						alert(xhr.status + ": " + xhr.responseText);
+					}
+				});
+			}
+
+			notaMitjana = notaMitjana + nota;
+			cor = cor + correctes;
+			totalPreguntes = totalPreguntes + comptador;
+			numExercici = r + 1;
 
 		}
-		
-		mitjana= trunc(notaMitjana / numExercici);
+
+		mitjana = trunc(notaMitjana / numExercici);
 		$('#nota').text(mitjana);
 		$('#correctes').text(cor);
 		$('#incorrectes').text(totalPreguntes - cor);

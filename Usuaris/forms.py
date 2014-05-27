@@ -21,6 +21,11 @@ class formulariPerfil(ModelForm):
         model = User
         fields = ['first_name','last_name','email']
 
+class formulariPunts(ModelForm):
+    class Meta:
+        model = usuari
+        fields = ['punts']
+
 ##class formulariPerfil(forms.Form):
 #    nom = forms.CharField(max_length=100,label = 'Nom')
 #    cognom = forms.CharField(max_length=100,label = 'Cognom')

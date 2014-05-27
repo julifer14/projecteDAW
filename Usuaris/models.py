@@ -9,7 +9,7 @@ class usuari(models.Model):
     
     
     def __unicode__(self):
-        return self.usuari.username
+        return self.user.username
 
 medalles = (
     ('Nou','Nou'),

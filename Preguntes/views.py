@@ -46,6 +46,8 @@ def afegirPuntuacio(request):
     else:
         messages.error(request,'No tens permís per veure això!')
         return HttpResponseRedirect(reverse('home'))
+    
+    
 
 @login_required
 def crearTema(request):
@@ -87,16 +89,16 @@ def llistaTemes(request):
     context = {'temes':temes}
     return render(request,'llistatTemes.html',context)
 
+@login_required
 def llistatTipus(request):
     tipusets = tipus.objects.all()
-    print tipusets
     context = {'tipus':tipusets}
     return render(request,'llistatTipus.html',context)
 
 def ferPreguntes(request):
     #temes = tema.objects.all()
     return render(request,'preguntes.html')
-
+@login_required
 def llistatPreguntes(request):
     preguntes = pregunta.objects.all()
     return render(request,'llistatPreguntes.html',{'preguntes':preguntes})

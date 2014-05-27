@@ -1,12 +1,13 @@
 # -*- encoding: utf-8 -*-
 from django.shortcuts import render, get_object_or_404
-from Usuaris.forms import formulariLogin, formulariRegistre, formulariPerfil
+from Usuaris.forms import formulariLogin, formulariRegistre, formulariPerfil, formulariPunts
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.http.response import HttpResponseRedirect
 from django.contrib.auth.models import User
 from Usuaris.models import usuari
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -152,3 +153,25 @@ def logout_view(request):
     logout(request)
     messages.success(request, 'Logout correcte, a reveure')
     return HttpResponseRedirect('/')
+
+def afegirPuntsUsuari(request):
+    
+    if request.method == 'POST':
+        usuariActual = request.user
+        perfil = usuari.objects.filter(user=usuariActual).get()
+        puntsActuals =  perfil.punts
+        form = formulariPunts(request.POST)
+        if form.is_valid():
+            print form.punts
+            form.save()
+            #messages.success(request,'Dades enviadades correctament')
+            msg = "ok"
+        else:
+            msg = "fail"
+        return HttpResponse(msg)
+            
+    else:
+        messages.error(request,'No tens permís per veure això!')
+        return HttpResponseRedirect(reverse('home'))
+
+
