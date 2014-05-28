@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
+from django.template.defaultfilters import safe
+from django.conf.urls import patterns
 # Create your models here.
 
 class tema(models.Model):
@@ -24,6 +26,16 @@ class pregunta(models.Model):
     
     def __unicode__(self):
         return self.enunciat
+    
+    #Generar array de respostes
+    def getRespostes(self):
+        pass
+    
+    #Tranformar l'enunciat a HTML
+    def toHTML(self):
+        text = self.enunciat
+        import re
+        return safe(re.sub(r'\[\w\]',"<input type='text'>", text) )
     
     
     

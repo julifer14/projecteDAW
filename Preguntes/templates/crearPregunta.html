@@ -3,27 +3,61 @@
 {% block  title %}Crear pregunta{% endblock %}
 
 {% block localitzacio %}
-		<li>
-			<a href="{% url 'preguntes:ferPreguntes' %}">Preguntes</a>
-		</li>
-		<li>
-			<a class="active">Crear Pregunta</a>
-		</li>
+<li>
+	<a href="{% url 'preguntes:ferPreguntes' %}">Preguntes</a>
+</li>
+<li>
+	<a class="active">Crear Pregunta</a>
+</li>
 {% endblock %}
 
 {% block content %}
-<h1>Creació de preguntes</h1>
-<form action="" method="post" enctype="multipart/form-data" class="form-horizontal" role="form">
-	{% csrf_token %}
-	{% for field in form.visible_fields %}
+<div class="col-md-10 col-md-offset-0">
+	<h1>Creació de preguntes</h1>
+	<button class="col-md-5 col-md-offset-3 btn btn-info btn-md" data-toggle="modal" data-target="#nouTema">
+		No trobes el tema que vols? Crea'l!
+	</button>
+	<form action="" method="post" enctype="multipart/form-data" class="form-horizontal" role="form">
+		{% csrf_token %}
+		{% for field in form.visible_fields %}
 		<div  class="col-md-12  form-group">
 			{{ field.errors }}
 			{{ field.label_tag }} {{ field }}
 		</div>
-	{% endfor %}
-	<div class="col-md-6 col-md-offset-3">
-		<input class="btn btn-primary btn-block" type="submit" value="Envia" />
+		{% endfor %}
+		<div class="col-md-6 col-md-offset-3">
+			<input class="btn btn-primary btn-block" type="submit" value="Envia" />
+		</div>
+	</form>
+</div>
+
+<div class="modal fade" id="nouTema" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Afegir nou tema</h4>
+			</div>
+			<div class="modal-body">
+				<input type="text" id="id_nom" placeholder="Nom del Tema"/>
+				<div class="col-md-6 col-md-offset-3">
+					<input class="btn btn-default" id="afegirTema" type="submit" value="Envia" />
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary">
+					Guardar
+				</button>
+				<button type="button" class="btn btn-warning" data-dismiss="modal">
+					Tancar
+				</button>
+
+			</div>
+		</div>
 	</div>
-</form>
+</div>
 
 {% endblock %}
+

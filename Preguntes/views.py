@@ -31,7 +31,7 @@ def crearPregunta(request):
         form.fields[c].widget.attrs['class'] = 'form-control'
     return render(request, 'crearPregunta.html', {'form':form,})
 
-
+@login_required
 def afegirPuntuacio(request):
     if request.method == 'POST':
         form = formulariPuntuacio(request.POST)
@@ -56,17 +56,22 @@ def crearTema(request):
         if form.is_valid():
             form.save()
             messages.success(request,'Tema introduit correctament')
-            return HttpResponseRedirect(reverse('home'))
+            #return HttpResponseRedirect(reverse('home'))
+            msg = "ok"
         else:
+            msg = "fail"
             messages.error(request, 'Hi ha hagut un error al introduir el tema')
+        return HttpResponse(msg)
     else:
-        form = formulariTema()
+        messages.error(request,'No tens permís per veure això!')
+        return HttpResponseRedirect(reverse('home'))
+        #form = formulariTema()
         
-    camps_bootestrapejar =( 'nom',)
-    for c in camps_bootestrapejar:
-        form.fields[c].widget.attrs['class'] = 'form-control'
-    form.fields['nom'].widget.attrs['placeholder'] = 'Nom del tema'
-    return render(request,'crearTema.html',{'form':form,})
+    #camps_bootestrapejar =( 'nom',)
+    #for c in camps_bootestrapejar:
+    #    form.fields[c].widget.attrs['class'] = 'form-control'
+    #form.fields['nom'].widget.attrs['placeholder'] = 'Nom del tema'
+    #return render(request,'crearTema.html',{'form':form,})
 
 
 @login_required
