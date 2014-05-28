@@ -154,17 +154,17 @@ def logout_view(request):
     messages.success(request, 'Logout correcte, a reveure')
     return HttpResponseRedirect('/')
 
+#Es fa un post a aquesta vista, però el que envien tant fa, s'ignora i es suma 5 punts al usuari
 def afegirPuntsUsuari(request):
-    
     if request.method == 'POST':
         usuariActual = request.user
         perfil = usuari.objects.filter(user=usuariActual).get()
         puntsActuals =  perfil.punts
         form = formulariPunts(request.POST)
         if form.is_valid():
-            print form.punts
-            form.save()
-            #messages.success(request,'Dades enviadades correctament')
+            perfil.punts = puntsActuals + 5
+            perfil.save()
+            messages.success(request,'Dades enviadades correctament')
             msg = "ok"
         else:
             msg = "fail"
@@ -173,5 +173,4 @@ def afegirPuntsUsuari(request):
     else:
         messages.error(request,'No tens permís per veure això!')
         return HttpResponseRedirect(reverse('home'))
-
 

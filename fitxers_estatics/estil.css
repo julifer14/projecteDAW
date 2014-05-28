@@ -1,12 +1,21 @@
-#preguntes, .resposta{
+#preguntes, .resposta {
 	margin-bottom: 5px !important;
 }
-.respostaErronea{
+.respostaErronea {
 	border-color: red !important;
 }
-.respostaCorrecte{
+.respostaCorrecte {
 	border-color: green !important;
 }
-.seguit{
+.seguit {
 	display: inline-block !important;
+}
+#imatgeFons {
+	background-image: url('./imatges/minion.png') !important;
+	width: 200px;
+	height: 200px;
+	position: fixed;
+	right: 0; 
+	bottom: 0; 
+	z-index: -9999; 
 }

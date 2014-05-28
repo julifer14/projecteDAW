@@ -136,7 +136,7 @@ $(document).ready(function() {
 						$('#message').html("<h2>Form Submitted!</h2>");
 					},
 					error : function(xhr, errmsg, err) {
-						alert(xhr.status + ": " + xhr.responseText);
+						//alert(xhr.status + ": " + xhr.responseText);
 					}
 				});
 			}
