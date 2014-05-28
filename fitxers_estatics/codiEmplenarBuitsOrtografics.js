@@ -63,13 +63,15 @@ $(document).ready(function() {
 	 */
 
 	$('#validarPreguntes').click(function() {
+		
 		res = document.getElementsByClassName('resposta');
 		//Array de totes les respostes de l'suauri
 		respostesUsuari = new Array();
 		for ( i = 0; i < res.length; i++) {
 			respostesUsuari.push(res[i].value.trim());
 		}
-		//console.log(res);
+		
+
 		/*
 		 * Primer preparem l'array de respostes que haviem guardat abans
 		 */
@@ -83,22 +85,31 @@ $(document).ready(function() {
 			}
 			respostes[i] = respostesCorrectes;
 		}
+		for(h = 0;h<respostes.length;h++){
+			respostes[h].pop();
+		}
+		console.log(respostesUsuari);
+		console.log(respostes);
+		
 		//console.log(respostes);
 		notaMitjana = 0;
 		cor = 0;
 		totalPreguntes = 0;
+		comptador = 0;
 		for ( r = 0; r < respostes.length; r++) {
-			correctes = 0;
-			comptador = 0;
-			for ( e = 0; e < respostes[r].length - 1; e++) {
+			var correctes = 0;
+			var comptaRespostes = 0;
+			for ( e = 0; e < respostes[r].length; e++) {
+				
 				if (respostes[r][e] == respostesUsuari[comptador]) {
 					correctes++;
 				}
+				comptaRespostes++;
 				comptador++;
 			}
 
 			//Dades a enviar per ajax al servidor
-			notaPregunta = 10 / comptador;
+			notaPregunta = 10 / comptaRespostes;
 			nota = trunc(correctes * notaPregunta);
 
 			$.ajax({
@@ -111,11 +122,11 @@ $(document).ready(function() {
 					'usuari' : $('#idUsuari').text(),
 					'notaUsuari' : nota,
 					'correctes' : correctes,
-					'incorrectes' : (comptador - correctes),
+					'incorrectes' : (comptaRespostes - correctes),
 				},
 				success : function(json) {
 					//console.log("sss" + json);
-					$('#message').html("<h2>Form Submitted!</h2>");
+					//$('#message').html("<h2>Form Submitted!</h2>");
 				},
 				error : function(xhr, errmsg, err) {
 					//alert(xhr.status + ": " + xhr.responseText);
@@ -133,17 +144,20 @@ $(document).ready(function() {
 					},
 					success : function(json) {
 						//console.log("sss" + json);
-						$('#message').html("<h2>Form Submitted!</h2>");
+						//$('#message').html("<h2>Form Submitted!</h2>");
 					},
 					error : function(xhr, errmsg, err) {
 						//alert(xhr.status + ": " + xhr.responseText);
 					}
 				});
 			}
-
+			//suma de tota la nota
 			notaMitjana = notaMitjana + nota;
+			//Preguntes correctes totals
 			cor = cor + correctes;
-			totalPreguntes = totalPreguntes + comptador;
+			//Preguntes totals de l\'examen
+			totalPreguntes = totalPreguntes + comptaRespostes;
+			//Numero total d'exercicis realitzats
 			numExercici = r + 1;
 
 		}
