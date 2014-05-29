@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block  title %}Estidistiques{% endblock %}
+
+{% block localitzacio %}
+<li>
+	<a href="{% url 'preguntes:ferPreguntes' %}">Preguntes</a>
+</li>
+<li>
+	<a class="active">Crear Tema</a>
+</li>
+{% endblock %}
+
+{% block content %}
+<h1>Estadistiques</h1>
+
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<script type="text/javascript">
+	
+
+</script>
+{% endblock %}
+

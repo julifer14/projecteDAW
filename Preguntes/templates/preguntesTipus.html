@@ -20,44 +20,41 @@
 <br>
 {% if preguntesTipus %}
 <div class="container">
-	<div id="message"></div>
-	<div id="taulaResultats" class="table-responsive">
-		<table class=" table-bordered table col-md-3 table-condensed">
-			<tr class="info">
-				<td>Nota mitjana de la pràctica: </td><td id="nota"></td>
-			</tr>
-			<tr  class="success">
-				<td>Respostes Correctes: </td><td id="correctes"></td>
-			</tr>
-			<tr class="danger">
-				<td>Respostes Incorrectes: </td><td id="incorrectes"></td>
-			</tr>
-		</table>
-	</div>
+
 	<div  class="row">
-		<ul class="list-group col-md-2">
-			<p class='list-group-item-info list-group-item'>
-				Llistat de temes:
-			</p>
-			{% for pregunta in preguntesTipus %}
-			<p class="list-group-item text-justify">
-				{{pregunta.id}}.- {{ pregunta.tema }}
-			</p>
-			{%endfor%}
-		</ul>
+
 		<ul>
-			<div id="preguntes" class="list-group col-md-9">
-				{% for pregunta in preguntesTipus %}
-				<p class="preguntes list-group-item text-justify"  id="{{pregunta.id}}">
+			{% for pregunta in preguntesTipus %}
+
+			<div id="taulaResultats{{pregunta.id}}" class=" taulaResultats table-responsive">
+				<table class=" table-bordered table  col-md-3 table-condensed">
+					<tr class="info">
+						<td>Nota mitjana de la pràctica: </td><td id="nota{{pregunta.id}}"></td>
+					</tr>
+					<tr  class="success">
+						<td>Respostes Correctes: </td><td id="correctes{{pregunta.id}}"></td>
+					</tr>
+					<tr class="danger">
+						<td>Respostes Incorrectes: </td><td id="incorrectes{{pregunta.id}}"></td>
+					</tr>
+				</table>
+			</div>
+
+			<div id="{{pregunta.id}}" class="list-group col-md-9">
+				<p class='list-group-item-info list-group-item'>
+					Emplena els buits amb {{ pregunta.tema }}
+				</p>
+				<p class="preguntes list-group-item text-justify"  >
 					{{ pregunta.toHTML }}
 				</p>
-				{% endfor %}
+				<button onclick="validarPreguntes({{pregunta.id}})" class="btn  btn-info col-md-3 col-md-offset-5 validarPreguntes" value="Validar Pregunta" >
+					Validar Pregunta
+				</button>
 			</div>
+			{% endfor %}
+
 		</ul>
 	</div>
-	<button class="btn  btn-info col-md-3 col-md-offset-5" value="Enviar Dades" id="validarPreguntes">
-		Enviar Dades
-	</button>
 
 </div>
 {% else %}

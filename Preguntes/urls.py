@@ -7,6 +7,7 @@ urlpatterns = patterns('',
     url(r'^llistatTipus$',views.llistatTipus,name='llistatTipus'),
     url(r'^preguntesTipus/(?P<tipusPregunta>\w+)$', views.practicarTipus, name='practicarTipus'),
     url(r'^llistatPreguntes$',views.llistatPreguntes,name='llistatPreguntes'),
-    url(r'^afegirPuntuacio$', views.afegirPuntuacio, name='afegirPuntuacio'),
+    url(r'^afegirResposta', views.afegirResposta, name='afegirResposta'),
     url(r'^$',views.ferPreguntes,name='ferPreguntes'),
+    url(r'^estadistiques$',views.estadistiques,name='estadistiques'),
 )

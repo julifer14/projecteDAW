@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import safe
 from django.conf.urls import patterns
+import re
 # Create your models here.
 
 class tema(models.Model):
@@ -29,13 +30,20 @@ class pregunta(models.Model):
     
     #Generar array de respostes
     def getRespostes(self):
-        pass
+        array1 =  self.enunciat.split('[')
+       
+        array = []
+        for i in array1:
+            if ']' in i:
+                e = i.split(']')
+                array.insert(len(array),e[0])
+        return array
     
     #Tranformar l'enunciat a HTML
     def toHTML(self):
         text = self.enunciat
-        import re
-        return safe(re.sub(r'\[\w\]',"<input type='text'>", text) )
+        canvi = "<input class='resposta' type='text'>"
+        return safe(re.sub(r'\[\w\]',canvi, text))
     
     
     

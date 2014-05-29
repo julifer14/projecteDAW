@@ -11,7 +11,6 @@ class formulariTema(forms.ModelForm):
         model = tema
         fields = ['nom']
         
-class formulariPuntuacio(forms.ModelForm):
-    class Meta:
-        model = puntuacio
-        exclude = ['data','hora']
+class formulariResposta(forms.Form):
+    idPregunta = forms.IntegerField()
+    respostes = forms.CharField(max_length=300)

@@ -33,7 +33,7 @@
 							<a href="{% url 'preguntes:ferPreguntes' %}">Pràcticar</a>
 						</li>
 						<li>
-							<a href="#">Estadistiques</a>
+							<a href="{% url 'preguntes:estadistiques' %}">Estadistiques</a>
 						</li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Gestió Preguntes<b class="caret"></b></a>
@@ -101,6 +101,8 @@
 		<script src="{% static 'bootstrap/js/mensajes.js' %}"></script>
 		<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 		<script src="{% static 'jquery-cookie-master/jquery.cookie.js'%}"></script>
+		<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
 		<script src="{% static 'codiGeneral.js' %}"></script>
 		
 		{% if messages %}
