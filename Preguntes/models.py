@@ -39,11 +39,15 @@ class pregunta(models.Model):
                 array.insert(len(array),e[0])
         return array
     
-    #Tranformar l'enunciat a HTML
+    #Transformar l'enunciat a HTML
     def toHTML(self):
         text = self.enunciat
-        canvi = "<input class='resposta' type='text'>"
-        return safe(re.sub(r'\[\w\]',canvi, text))
+        canvi = ""
+        if self.tipus.nom == "CompletarGramatica":
+            canvi = "<input class='resposta' type='text'><br>"
+        if self.tipus.nom == "EmplenarBuitsOrtografics":
+            canvi = "<input class='resposta' type='text'>"
+        return safe(re.sub(r'\[\w+\]',canvi, text))
     
     
     
