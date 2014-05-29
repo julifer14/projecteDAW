@@ -32,7 +32,7 @@ $(document).ready(function() {
 				//$('#message').html("<h2>Form Submitted!</h2>");
 			},
 			error : function(xhr, errmsg, err) {
-				alert(xhr.status + ": " + xhr.responseText);
+				//alert(xhr.status + ": " + xhr.responseText);
 			}
 		});
 
@@ -115,17 +115,17 @@ function validarPreguntes(idPreg){
 			success : function(data, page) {
 				notes = JSON.stringify(data,['idPregunta','nota','correctes','incorrectes']);
 				var objec = $.parseJSON(notes);
-				alert('#taulaResultats'+objec.idPregunta+'> .nota');
 				$('#nota'+objec.idPregunta).text(objec.nota);
 				$('#correctes'+objec.idPregunta).text(objec.correctes);
 				$('#incorrectes'+objec.idPregunta).text(objec.incorrectes);
-				$('#resposta'+objec.idPregunta).attr('disabled', 'disabled');
+				//$('.resposta').attr('disabled', 'disabled');
+				$('#'+objec.idPregunta+'>p>input').attr('disabled', 'disabled');
 				$('#taulaResultats'+objec.idPregunta).show();
-				//$('#taulaResultats'+objec.idPregunta+'>.validarPreguntes).attr('class', 'disabled btn btn-lg btn-info col-md-2 col-md-offset-5');
+				$('#'+objec.idPregunta+'>button').attr('class', 'disabled btn  btn-info col-md-3 col-md-offset-5 validarPreguntes');
 						
 			},
 			error : function(xhr, errmsg, err) {
-				alert(xhr.status + ": " + xhr.responseText);
+				//alert(xhr.status + ": " + xhr.responseText);
 			}
 		});
 	
