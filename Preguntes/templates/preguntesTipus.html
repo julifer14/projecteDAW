@@ -44,22 +44,29 @@
 				<p class='list-group-item-info list-group-item'>
 					<span class="col-md-4">Emplena els buits amb {{ pregunta.tema }}</span>
 					<span class="btn-group col-md-offset-1">
-						<button onclick="validarPreguntes({{pregunta.id}})" class="btn col-md-offset-2 btn-sm btn-info butonet  validarPreguntes" value="Validar Pregunta" >
+						<button onclick="validarPreguntes({{pregunta.id}})" id="valid{{pregunta.id}}" class="btn col-md-offset-2 btn-sm btn-info butonet  validarPreguntes" value="Validar Pregunta" >
 							Validar Pregunta
-						</button>
-						{%if medalles %}
-							{%for m in medalles %}
-								{% if 'ReportarPregunta' == m.medalla.nomMedalla %}
-								<button onclick="marcarIncorrecte({{pregunta.id}})"   class="btn butonet col-md-offset-1 btn-sm btn-warning" value="Reportar Pregunta Incorrecte ">
-									Reportar Pregunta Incorrecte
-								</button>
-								{%endif%}
-							{%endfor%}
+						</button> {%if medalles %}
+						{%for m in medalles %}
+						{% if 'ReportarPregunta' == m.medalla.nomMedalla %}
+						<button onclick="marcarIncorrecte({{pregunta.id}})"   class="btn butonet col-md-offset-1 btn-sm btn-warning" value="Reportar Pregunta Incorrecte ">
+							Reportar Pregunta Incorrecte
+						</button> 
 						{%endif%}
-						<a href="https://twitter.com/intent/tweet?button_hashtag=PreguntMatic&text=He%20contestat%20una%20pregunta%20sobre%20{{pregunta.tema}}%20a%20" class=" twitter-hashtag-button" data-lang="es" data-related="juli16_31">Tweet #PreguntMatic</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-					</span>
-					
+						{%endfor%}
+						{%endif%} <span class="twitter" id="twitter{{pregunta.id}}"><a href="https://twitter.com/intent/tweet?button_hashtag=PreguntMatic&text=He%20contestat%20una%20pregunta%20sobre%20{{pregunta.tema}}%20a%20" class=" twitter-hashtag-button" data-lang="es" data-related="juli16_31">Tweet #PreguntMatic</a>
+							<script>
+								! function(d, s, id) {
+									var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+									if (!d.getElementById(id)) {
+										js = d.createElement(s);
+										js.id = id;
+										js.src = p + '://platform.twitter.com/widgets.js';
+										fjs.parentNode.insertBefore(js, fjs);
+									}
+								}(document, 'script', 'twitter-wjs');
+							</script> </span> </span>
+
 				</p>
 				<p class="preguntes list-group-item text-justify"  >
 					{{ pregunta.toHTML }}

@@ -34,9 +34,6 @@ class pregunta(models.Model):
         respostes = re.findall(r"\[([A-Za-z]+)\]",enunciat)
         return respostes
         
-        
-        
-    
     #Transformar l'enunciat a HTML
     def toHTML(self):
         text = self.enunciat
@@ -59,12 +56,12 @@ class puntuacio(models.Model):
     incorrectes = models.IntegerField()
     
     def __unicode__(self):
-        return "Usuari " + self.usuari + " pregunta: " + self.pregunta.id + " punts " + self.notaUsuari 
+        return self.nota 
     
 class preguntaErronea(models.Model):
     pregunta = models.ForeignKey(pregunta)
     usuariNotifica = models.ForeignKey(User)
     data = models.DateField(auto_now_add=True,editable=False)
-    hora = models.TimeField()
+    hora = models.TimeField(auto_now_add=True,editable=False)
     
     

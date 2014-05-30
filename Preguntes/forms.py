@@ -14,7 +14,7 @@ class formulariTema(forms.ModelForm):
 class formulariPreguntaErronea(forms.ModelForm):
     class Meta:
         model = preguntaErronea
-        exclude = ['data','hora']
+        exclude = ['data','hora','usuariNotifica',]
         
 class formulariResposta(forms.Form):
     idPregunta = forms.IntegerField()

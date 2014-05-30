@@ -22,7 +22,7 @@
 			<div class="list-group col-md-8 col-sm-offset-2 ">
 			{% for pregunta in preguntes %}
 				<div class="list-group-item text-center">
-					<p>{{pregunta.id}} -- {{ pregunta.enunciat }} -- {{pregunta.tema}} -- {{pregunta.tipus}}   </p>
+					<p>{{pregunta.id}} -- {{ pregunta.toHTML }} -- {{pregunta.tema}} -- {{pregunta.tipus}}   </p>
 				</div>
 			{% endfor %}
 			</div>

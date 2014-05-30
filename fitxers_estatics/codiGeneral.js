@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	$('.taulaResultats').hide();
-	
+	$('.twitter').hide();
 	$('#afegirTema').click(function() {
 		$.ajax({
 
@@ -80,7 +80,20 @@ $(document).ready(function() {
  * Marca pregunta erronia
  */
 function marcarIncorrecte(idPreg){
-	
+	$.ajax({
+			type : "POST",
+			url : "/preguntes/preguntesIncorrectes",
+			dataType : 'json',
+			data : {
+				'csrfmiddlewaretoken' : $.cookie("csrftoken"),
+				'pregunta' : idPreg,
+			},
+			success : function(data, page) {
+			},
+			error : function(xhr, errmsg, err) {
+				alert(xhr.status + ": " + xhr.responseText);
+			}
+		});
 }
 
 /*
@@ -111,8 +124,9 @@ function validarPreguntes(idPreg){
 				//$('.resposta').attr('disabled', 'disabled');
 				$('#'+objec.idPregunta+'>p>input').attr('disabled', 'disabled');
 				$('#taulaResultats'+objec.idPregunta).show();
-				$('#'+objec.idPregunta+'>button').attr('class', 'disabled btn  btn-info col-md-3 col-md-offset-5 validarPreguntes');
-						
+				$('#'+objec.idPregunta+'>p>span>#valid'+objec.idPregunta).attr('class', 'disabled btn col-md-offset-2 btn-sm btn-info butonet  validarPreguntes');
+				
+				$('#twitter'+objec.idPregunta).show();
 			},
 			error : function(xhr, errmsg, err) {
 				//alert(xhr.status + ": " + xhr.responseText);

@@ -1,55 +1,90 @@
 # -*- encoding: utf-8 -*-
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from Preguntes.forms import formulariPregunta, formulariTema, formulariResposta
+from Preguntes.forms import formulariPregunta, formulariTema, formulariResposta, formulariPreguntaErronea
 from django.contrib import messages
 from django.http.response import HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
-from Preguntes.models import tema, pregunta, tipus,puntuacio
+from Preguntes.models import tema, pregunta, tipus,puntuacio,preguntaErronea
 from django.contrib.auth.models import User
 from django.core import serializers
 from django.http import HttpResponse
 from Usuaris.models import usuari, medallesUsuari
 import json
 
+
+#Mostra les preguntes marcades com erroneas
+@login_required
+def llistatPreguntesIncorrectes(request):
+    medalles = medallesUsuari.objects.filter(usuari = request.user)
+    pot = False
+    for m in medalles:
+        if m.medalla.nomMedalla == 'EliminarPreguntes':
+            pot = True
+    if pot:
+        if request.method == 'POST':
+            pass
+        else:
+            #mostrar llistat preguntes erronies amb mes de 5 entrades
+            pass
+        
+#Nomes poden entrar els de la medalla ReportarPregunta
 @login_required
 def preguntesIncorrectes(request):
-    if request.method == 'POST':
-        form = formulariTema(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request,'Tema introduit correctament')
-            #return HttpResponseRedirect(reverse('home'))
-            msg = "ok"
-        else:
-            msg = "fail"
-            messages.error(request, 'Hi ha hagut un error al introduir el tema')
-        return HttpResponse(msg)
+    medalles = medallesUsuari.objects.filter(usuari = request.user)
+    pot = False
+    for m in medalles:
+        if m.medalla.nomMedalla == 'ReportarPregunta':
+            pot = True
+    
+    if pot:
+        if request.method == 'POST':
+            preg = preguntaErronea()
+            preg.usuariNotifica = request.user
+            form = formulariPreguntaErronea(request.POST,instance = preg)
+            if form.is_valid():
+                form.save()
+                messages.success(request,'Notificació enviada')
+                #return HttpResponseRedirect(reverse('home'))
+                msg = "ok"
+            else:
+                msg = "fail"
+                messages.error(request, 'Hi ha hagut un error al notificar')
+            return HttpResponse(msg)
     else:
         messages.error(request,'No tens permís per veure això!')
         return HttpResponseRedirect(reverse('home'))
         #form = formulariTema()
-
+#Nomes poden entrar els de la medalla CrearPreguntes
 @login_required
 def crearPregunta(request):
-    preg = pregunta()
-    preg.usuari = request.user
-    if request.method == 'POST':
-        form = formulariPregunta(request.POST,instance = preg)
-        if form.is_valid():
-            form.save()
-            messages.success(request,'Pregunta introduida correctament')
-            return HttpResponseRedirect(reverse('home'))
+    medalles = medallesUsuari.objects.filter(usuari = request.user)
+    for m in medalles:
+        if m.medalla.nomMedalla == 'CrearPreguntes':
+            pot = True
+    pot = False
+    if pot:
+        preg = pregunta()
+        preg.usuari = request.user
+        if request.method == 'POST':
+            form = formulariPregunta(request.POST,instance = preg)
+            if form.is_valid():
+                form.save()
+                messages.success(request,'Pregunta introduida correctament')
+                return HttpResponseRedirect(reverse('home'))
+            else:
+                messages.error(request, 'Hi ha hagut un error al introduir la pregunta')
         else:
-            messages.error(request, 'Hi ha hagut un error al introduir la pregunta')
+            form = formulariPregunta(instance = preg)
+            
+        camps_bootestrapejar =( 'tema', 'tipus','enunciat')
+        for c in camps_bootestrapejar:
+            form.fields[c].widget.attrs['class'] = 'form-control'
+        return render(request, 'crearPregunta.html', {'form':form,})
     else:
-        form = formulariPregunta(instance = preg)
-        
-    camps_bootestrapejar =( 'tema', 'tipus','enunciat')
-    for c in camps_bootestrapejar:
-        form.fields[c].widget.attrs['class'] = 'form-control'
-    return render(request, 'crearPregunta.html', {'form':form,})
-#Per AJAX arriba un formulari amb la pregunta que ha contestat l'usuari i les respostes que 
+        messages.error(request,'No tens permís per veure això!')
+        return HttpResponseRedirect(reverse('home'))
+#Per AJAX arriba un formulari amb el necessari per corregir
 @login_required
 def afegirResposta(request):
     if request.method == 'POST':
@@ -104,30 +139,36 @@ def afegirResposta(request):
         return HttpResponseRedirect(reverse('home'))
     
     
-
+#Nomes poden entrar els de la medalla crear preguntes -- Si poden crear preguntes podran crear temes
 @login_required
 def crearTema(request):
-    if request.method == 'POST':
-        form = formulariTema(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request,'Tema introduit correctament')
-            #return HttpResponseRedirect(reverse('home'))
-            msg = "ok"
-        else:
-            msg = "fail"
-            messages.error(request, 'Hi ha hagut un error al introduir el tema')
-        return HttpResponse(msg)
+    medalles = medallesUsuari.objects.filter(usuari = request.user)
+    for m in medalles:
+        if m.medalla.nomMedalla == 'CrearPreguntes':
+            pot = True
+    pot = False
+    if pot:
+        if request.method == 'POST':
+            form = formulariTema(request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request,'Tema introduit correctament')
+                #return HttpResponseRedirect(reverse('home'))
+                msg = "ok"
+            else:
+                msg = "fail"
+                messages.error(request, 'Hi ha hagut un error al introduir el tema')
+            return HttpResponse(msg)
     else:
         messages.error(request,'No tens permís per veure això!')
         return HttpResponseRedirect(reverse('home'))
-
+#-------------------------------SENSE FER!
 @login_required
 def randomExamen(request):
     totesPreguntes = pregunta.objects.all()
     return render(request,'preguntesRandom.html')
 
-##Vista que mostra l'exercici 
+#Vista que mostra l'exercici 
 @login_required
 def practicarTipus(request, tipusPregunta):
     tip = get_object_or_404(tipus,pk=tipusPregunta)
@@ -139,10 +180,16 @@ def practicarTipus(request, tipusPregunta):
     context = {'preguntesTipus':preguntesTipus,'tipus':tip,'medalles':medallesUser,}
     return render(request, 'preguntesTipus.html',context)
 
+##########En desus ---- mostra els temes 
+@login_required
 def llistaTemes(request):
-    temes = tema.objects.all()
-    context = {'temes':temes}
-    return render(request,'llistatTemes.html',context)
+    if request.user.is_staff:
+        temes = tema.objects.all()
+        context = {'temes':temes}
+        return render(request,'--llistatTemes.html',context)
+    else:
+        messages.error(request,'No tens permís per veure això!')
+        return HttpResponseRedirect(reverse('home')) 
 
 @login_required
 def llistatTipus(request):
@@ -150,14 +197,17 @@ def llistatTipus(request):
     context = {'tipus':tipusets}
     return render(request,'llistatTipus.html',context)
 
+#Mostrar /preguntes
 def ferPreguntes(request):
     #temes = tema.objects.all()
     return render(request,'preguntes.html')
 
+@login_required
 def estadistiques(request):
     return render(request,'estadistiques.html')
 
+######En desus ---- Mostra totes les preguntes
 @login_required
 def llistatPreguntes(request):
     preguntes = pregunta.objects.all()
-    return render(request,'llistatPreguntes.html',{'preguntes':preguntes})
+    return render(request,'--llistatPreguntes.html',{'preguntes':preguntes})
