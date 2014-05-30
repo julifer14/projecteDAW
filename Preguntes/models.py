@@ -30,14 +30,12 @@ class pregunta(models.Model):
     
     #Generar array de respostes
     def getRespostes(self):
-        array1 =  self.enunciat.split('[')
-       
-        array = []
-        for i in array1:
-            if ']' in i:
-                e = i.split(']')
-                array.insert(len(array),e[0])
-        return array
+        enunciat = self.enunciat
+        respostes = re.findall(r"\[([A-Za-z]+)\]",enunciat)
+        return respostes
+        
+        
+        
     
     #Transformar l'enunciat a HTML
     def toHTML(self):
@@ -46,7 +44,7 @@ class pregunta(models.Model):
         if self.tipus.nom == "CompletarGramatica":
             canvi = "<input class='resposta' type='text'><br>"
         if self.tipus.nom == "EmplenarBuitsOrtografics":
-            canvi = "<input class='resposta' type='text'>"
+            canvi = "<input class='form-control  inputPetit resposta' type='text'>"
         return safe(re.sub(r'\[\w+\]',canvi, text))
     
     
@@ -66,7 +64,7 @@ class puntuacio(models.Model):
 class preguntaErronea(models.Model):
     pregunta = models.ForeignKey(pregunta)
     usuariNotifica = models.ForeignKey(User)
-    data = models.DateField()
+    data = models.DateField(auto_now_add=True,editable=False)
     hora = models.TimeField()
     
     

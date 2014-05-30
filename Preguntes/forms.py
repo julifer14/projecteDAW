@@ -1,5 +1,5 @@
 from django import  forms
-from Preguntes.models import pregunta, tema,puntuacio
+from Preguntes.models import pregunta, tema,puntuacio ,preguntaErronea
 
 class formulariPregunta(forms.ModelForm):
     class Meta:
@@ -10,6 +10,11 @@ class formulariTema(forms.ModelForm):
     class Meta:
         model = tema
         fields = ['nom']
+        
+class formulariPreguntaErronea(forms.ModelForm):
+    class Meta:
+        model = preguntaErronea
+        exclude = ['data','hora']
         
 class formulariResposta(forms.Form):
     idPregunta = forms.IntegerField()

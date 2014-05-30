@@ -42,6 +42,7 @@ medalles = (
     ('CrearPreguntes','Crear noves preguntes'),
     ('EditarPreguntes','Editar preguntes erronies'),
     ('EliminarPreguntes','Eliminar preguntes'),
+    ('ReportarPregunta','Reportar Pregunta'),
     )
 
 class medalles(models.Model):

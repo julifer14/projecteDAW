@@ -9,8 +9,26 @@ from Preguntes.models import tema, pregunta, tipus,puntuacio
 from django.contrib.auth.models import User
 from django.core import serializers
 from django.http import HttpResponse
-from Usuaris.models import usuari
+from Usuaris.models import usuari, medallesUsuari
 import json
+
+@login_required
+def preguntesIncorrectes(request):
+    if request.method == 'POST':
+        form = formulariTema(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'Tema introduit correctament')
+            #return HttpResponseRedirect(reverse('home'))
+            msg = "ok"
+        else:
+            msg = "fail"
+            messages.error(request, 'Hi ha hagut un error al introduir el tema')
+        return HttpResponse(msg)
+    else:
+        messages.error(request,'No tens permís per veure això!')
+        return HttpResponseRedirect(reverse('home'))
+        #form = formulariTema()
 
 @login_required
 def crearPregunta(request):
@@ -103,14 +121,6 @@ def crearTema(request):
     else:
         messages.error(request,'No tens permís per veure això!')
         return HttpResponseRedirect(reverse('home'))
-        #form = formulariTema()
-        
-    #camps_bootestrapejar =( 'nom',)
-    #for c in camps_bootestrapejar:
-    #    form.fields[c].widget.attrs['class'] = 'form-control'
-    #form.fields['nom'].widget.attrs['placeholder'] = 'Nom del tema'
-    #return render(request,'crearTema.html',{'form':form,})
-
 
 @login_required
 def randomExamen(request):
@@ -121,11 +131,12 @@ def randomExamen(request):
 @login_required
 def practicarTipus(request, tipusPregunta):
     tip = get_object_or_404(tipus,pk=tipusPregunta)
+    medallesUser = medallesUsuari.objects.filter(usuari = request.user)
     try:
         preguntesTipus = pregunta.objects.filter(tipus = tipusPregunta)
     except:
         preguntesTipus = ""
-    context = {'preguntesTipus':preguntesTipus,'tipus':tip}
+    context = {'preguntesTipus':preguntesTipus,'tipus':tip,'medalles':medallesUser,}
     return render(request, 'preguntesTipus.html',context)
 
 def llistaTemes(request):
