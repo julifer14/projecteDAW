@@ -92,17 +92,16 @@ $(document).ready(function() {
 
 });
 
-
+/*
+ * Validar preguntes
+ */
 function validarPreguntes(idPreg){
 	inputets = $('#'+idPreg+'>p>input');
-	//alert(inputets.length);
 	respostesUsuari = "";
 	for(i=0;i<inputets.length;i++){
 		respostesUsuari = respostesUsuari+","+inputets[i].value.trim();
 	}
 	respostesUsuari = respostesUsuari.substr(1);
-	//alert(respostesUsuari);
-	
 	$.ajax({
 			type : "POST",
 			url : "/preguntes/afegirResposta",
@@ -125,7 +124,7 @@ function validarPreguntes(idPreg){
 						
 			},
 			error : function(xhr, errmsg, err) {
-				//alert(xhr.status + ": " + xhr.responseText);
+				alert(xhr.status + ": " + xhr.responseText);
 			}
 		});
 	

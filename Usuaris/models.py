@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.fields.related import ForeignKey
 from django.db.models.signals import post_save
+from django.contrib import messages
 # Create your models here.
 
 class usuari(models.Model):
@@ -15,21 +16,23 @@ class usuari(models.Model):
 
 
 def comprovar_medalles(sender, instance, created, **kwargs):
-    print "hodfffffla"
+    print "hola"
     puntsUsuari = instance.punts
     usu =  instance.user
     llistaMedallesUsuari = medalles.objects.filter(medallesusuari__usuari=usu)
-    print "medallesusuaris ",llistaMedallesUsuari
-    #M
     medallesPosibles = medalles.objects.filter(puntsMinim__lte=puntsUsuari)
     #Si no es troba a la llista li assigno
-    print "medallespossibles ", medallesPosibles
+    #noves_medalles = []
     for m in medallesPosibles:
         if m not in llistaMedallesUsuari:
+            print m
             medallaUsu = medallesUsuari()
             medallaUsu.usuari = usu
             medallaUsu.medalla = m 
             medallaUsu.save()
+            #noves_medalles.add( 'Has aconseguit la medalla %s' % m )
+    #instance.noves_medalles = noves_medalles
+    
         
 
 post_save.connect(comprovar_medalles, sender = usuari)

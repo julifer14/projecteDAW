@@ -5,15 +5,16 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.http.response import HttpResponseRedirect
 from django.contrib.auth.models import User
-from Usuaris.models import usuari
+from Usuaris.models import usuari, medallesUsuari
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 
 # Create your views here.
 
 def perfil(request):
-    usuari = request.user
-    useret = get_object_or_404(User, pk=usuari.id)
+    usuar = request.user
+    useret = get_object_or_404(User, pk=usuar.id)
+    medallesUser = medallesUsuari.objects.filter(usuari = usuar)
     if request.method == 'POST':
         form = formulariPerfil(request.POST)
         if form.is_valid():
@@ -38,7 +39,7 @@ def perfil(request):
     form.fields['first_name'].widget.attrs['value'] = useret.first_name
     form.fields['email'].widget.attrs['value'] = useret.email
             
-    return render(request, 'perfil.html',{'form':form})
+    return render(request, 'perfil.html',{'form':form,'medallesUser':medallesUser})
 
 def registrar(request):
     if request.method == 'POST':

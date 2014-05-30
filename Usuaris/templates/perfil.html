@@ -26,6 +26,16 @@
 			<p>
 				{{user.usuari.punts}}
 			</p>
+			{% if medallesUser %}
+			<strong>Medalles: </strong>
+			<ul>
+			{% for m in medallesUser %}
+			<li>
+				{{m.medalla.nomMedalla}}
+			</li>
+			{%endfor%}
+			</ul>
+			{% endif %}
 		</div>
 		<input class="btn btn-default col-md-12 " type="submit" value="Guardar" />
 	</form>

@@ -9,6 +9,7 @@ from Preguntes.models import tema, pregunta, tipus,puntuacio
 from django.contrib.auth.models import User
 from django.core import serializers
 from django.http import HttpResponse
+from Usuaris.models import usuari
 import json
 
 @login_required
@@ -65,7 +66,13 @@ def afegirResposta(request):
             puntu.correctes = correcte
             puntu.incorrectes = incorrecte
             puntu.save()
-            messages.success(request,'Dades enviadades correctament')
+            #Sumar punts si ha aprovat!
+            if nota >= 5:
+                useret = usuari.objects.filter(user = request.user).get()
+                useret.punts = useret.punts+2
+                useret.save()
+                messages.info(request,'Has guanyat dos punts al contestar la pregunta')
+            #messages.success(request,'Dades enviadades correctament')
             #preparem la llista de noms a enviar
             resposteta =  {"idPregunta": idPregunta, 
                             "nota": nota,
