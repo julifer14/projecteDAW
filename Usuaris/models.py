@@ -21,15 +21,12 @@ def comprovar_medalles(sender, instance, created, **kwargs):
     llistaMedallesUsuari = medalles.objects.filter(medallesusuari__usuari=usu)
     medallesPosibles = medalles.objects.filter(puntsMinim__lte=puntsUsuari)
     #Si no es troba a la llista li assigno
-    #noves_medalles = []
     for m in medallesPosibles:
         if m not in llistaMedallesUsuari:
             medallaUsu = medallesUsuari()
             medallaUsu.usuari = usu
             medallaUsu.medalla = m 
             medallaUsu.save()
-            #noves_medalles.add( 'Has aconseguit la medalla %s' % m )
-    #instance.noves_medalles = noves_medalles
     
         
 

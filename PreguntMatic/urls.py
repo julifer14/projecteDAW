@@ -13,4 +13,6 @@ urlpatterns = patterns('',
     url(r'^preguntes/', include('Preguntes.urls', namespace='preguntes')),
     url(r'^usuaris/', include('Usuaris.urls', namespace='usuaris')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^erroret500$','eines.views.error500',name='erroret500'),
 )
+handler500 = 'eines.views.error500'
