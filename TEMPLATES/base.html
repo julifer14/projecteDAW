@@ -44,9 +44,15 @@
 								<li>
 									<a href="{% url 'preguntes:crearPregunta' %}">Crear Pregunta</a>
 								</li>
+								
 								<li>
-									<a href="#">Marcar pregunta erronea</a>
+									<a href="#">Gestió de preguntes errònies</a>
 								</li>
+								{% if request.user.is_staff %}
+								<li>
+									<a href="{% url 'preguntes:exportXML'%}">Exportar Preguntes</a>
+								</li>
+								{% endif %}
 							</ul>
 						</li>
 					</ul>

@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import safe
 from django.conf.urls import patterns
+from django.db.models import Avg
 import re
 # Create your models here.
 
@@ -23,10 +24,16 @@ class pregunta(models.Model):
     usuari = models.ForeignKey(User)
     tipus = models.ForeignKey(tipus)
     enunciat =  models.TextField(max_length=500)
-
+    
+    
     
     def __unicode__(self):
         return self.enunciat
+    
+    def mitjana(self):
+        m = self.puntuacio_set.aggregate(mitjana = Avg('notaUsuari'))
+        return m['mitjana']
+    
     
     #Generar array de respostes
     def getRespostes(self):
@@ -56,7 +63,7 @@ class puntuacio(models.Model):
     incorrectes = models.IntegerField()
     
     def __unicode__(self):
-        return self.nota 
+        return self.notaUsuari
     
 class preguntaErronea(models.Model):
     pregunta = models.ForeignKey(pregunta)

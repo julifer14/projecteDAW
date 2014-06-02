@@ -64,10 +64,13 @@ def preguntesIncorrectes(request):
 @login_required
 def crearPregunta(request):
     medalles = medallesUsuari.objects.filter(usuari = request.user)
+    pot = False
     for m in medalles:
+        print m.medalla.nomMedalla
         if m.medalla.nomMedalla == 'CrearPreguntes':
             pot = True
-    pot = False
+    
+    print pot
     if pot:
         preg = pregunta()
         preg.usuari = request.user
@@ -147,11 +150,12 @@ def afegirResposta(request):
 #Nomes poden entrar els de la medalla crear preguntes -- Si poden crear preguntes podran crear temes
 @login_required
 def crearTema(request):
+    pot = False
     medalles = medallesUsuari.objects.filter(usuari = request.user)
     for m in medalles:
         if m.medalla.nomMedalla == 'CrearPreguntes':
             pot = True
-    pot = False
+    
     if pot:
         if request.method == 'POST':
             form = formulariTema(request.POST)
@@ -160,10 +164,15 @@ def crearTema(request):
                 messages.success(request,'Tema introduit correctament')
                 #return HttpResponseRedirect(reverse('home'))
                 msg = "ok"
+                print form.cleaned_data['nom']
+                t = tema.objects.filter(nom=form.cleaned_data['nom']).get()
+                msg =  {"id": t.id, 
+                            "nom": t.nom,
+                            }
             else:
-                msg = "fail"
+                msg = {"fail":"fail"}
                 messages.error(request, 'Hi ha hagut un error al introduir el tema')
-            return HttpResponse(msg)
+            return HttpResponse(json.dumps(msg), content_type="application/json")
     else:
         messages.error(request,'No tens permís per veure això!')
         return HttpResponseRedirect(reverse('home'))
@@ -209,7 +218,11 @@ def ferPreguntes(request):
 
 @login_required
 def estadistiques(request):
-    return render(request,'estadistiques.html')
+    #Estadistica de l'evolució de l'usuari
+    punts = puntuacio.objects.filter(usuari = request.user)
+    #Estadistica de la mitjana de les meves preguntes
+    mevesPreguntes = pregunta.objects.filter(usuari = request.user)
+    return render(request,'estadistiques.html', {'punts':punts,'mevesPreguntes':mevesPreguntes,})
 
 ######En desus ---- Mostra totes les preguntes
 @login_required

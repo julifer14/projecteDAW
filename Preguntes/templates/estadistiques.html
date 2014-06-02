@@ -1,24 +1,176 @@
 {% extends "base.html" %}
 
-{% block  title %}Estidistiques{% endblock %}
+{% block  title %}Estadistiques{% endblock %}
 
 {% block localitzacio %}
 <li>
 	<a href="{% url 'preguntes:ferPreguntes' %}">Preguntes</a>
 </li>
 <li>
-	<a class="active">Crear Tema</a>
+	<a class="active">Estadistiques</a>
 </li>
 {% endblock %}
 
 {% block content %}
-<h1>Estadistiques</h1>
 
 
-<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-<script type="text/javascript">
-	
+<h1 class="text-center">Estadistiques</h1>
 
-</script>
+<ul class=" nav-tabs nav-justified nav ">
+  <li id="mevesNotes" class="butonets"><a  href="#">Evolució de les meves notes</a></li>
+  <li id="mevesPreguntes" class="butonets"><a href="#">Mitjana nota meves preguntes</a></li>
+</ul>
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"><p class="lead text-center">Escull el gràfic que vols veure </p></div>
 {% endblock %}
+{% block mesScripts %}
+<script type="application/javascript">
+$(document).ready(function() {
+	
+	 });
+$('#mevesPreguntes').click(function (){
+	$('.butonets').removeClass('active');
+	$('#mevesPreguntes').addClass('active butonets');
+	$('#container').empty();
+	{% if mevesPreguntes %}
+	$('#container').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Notes mitjanes de les meves preguntes'
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+            	title: {
+                    text: 'Pregunta - Tema'
+                						},
+                type: 'category',
+                labels: {
+                    rotation: -45,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Nota'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            tooltip: {
+                pointFormat: '',
+            },
+            series: [{
+                name: 'Preguntes Creades per mi ',
+                data: [
+                	{% for c in mevesPreguntes %}
+                	["{{c.id}}-{{c.tema}}",
+						{{c.mitjana|stringformat:".3f"}}
+						],
+					{% endfor%}
+                    
+                ],
+                dataLabels: {
+                    enabled: true,
+                    rotation: -90,
+                    color: '#FFFFFF',
+                    align: 'right',
+                    x: 4,
+                    y: 10,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif',
+                        textShadow: '0 0 3px black'
+                    }
+                }
+            }]
+        });
+        {% else %}
+        $('#container').empty().append("<h3>No hi ha dades perquè no has creat preguntes<br><a class='btn btn-default' href='{% url 'preguntes:crearPregunta' %}'>Crea-la ara mateix!</a>");
+        {% endif %}
+        
+});
 
+	/*
+	 * Gràfic per pregunta
+	 */
+	$('#mevesNotes').click(function () {
+		{% if punts %}
+		$('.butonets').removeClass('active');
+		$('#mevesNotes').addClass('active butonets');
+		$('#container').empty;
+        $('#container').highcharts({
+            title: {
+                text: 'Evolució de les meves notes',
+                x: -20 //center
+            },
+            subtitle: {
+                text: '',
+                x: -20
+            },
+            xAxis: {
+            	title: {
+                    text: ''
+                						},
+                categories: [
+               	 {% for d in punts %}
+					'{{d.data|date:"d/m/y"}}',
+				{% endfor %}
+				],
+				labels: {
+                    rotation: -45,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Notes'
+                						},
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: ''
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: [{
+                name: '{{request.user.username}}',
+                data: [
+                {% for p in punts %}
+					{{ p.notaUsuari|floatformat }},
+				{% endfor %}
+                ]
+            },
+            ]
+        });
+        
+        {% else %}
+        
+        $('#container').empty().append("<h3>No hi ha dades perquè no has respòs preguntes<br><a class='btn btn-default' href='{% url 'preguntes:ferPreguntes' %}'>Comença ara mateix!</a>");
+        {% endif %}
+    });
+    
+    
+    
+</script>
+
+{% endblock %}
