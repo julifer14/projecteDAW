@@ -12,6 +12,11 @@ from django.http import HttpResponse
 from Usuaris.models import usuari, medallesUsuari
 import json
 
+@login_required
+def exportXML(request):
+    data = serializers.serialize("xml", pregunta.objects.all())
+    return HttpResponse(data, content_type="application/xml")
+
 
 #Mostra les preguntes marcades com erroneas
 @login_required

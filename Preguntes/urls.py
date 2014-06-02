@@ -11,5 +11,6 @@ urlpatterns = patterns('',
     url(r'^afegirResposta', views.afegirResposta, name='afegirResposta'),
     url(r'^$',views.ferPreguntes,name='ferPreguntes'),
     url(r'^estadistiques$',views.estadistiques,name='estadistiques'),
-    url(r'^preguntesIncorrectes',views.preguntesIncorrectes,name='preguntesIncorrectes'),
+    url(r'^preguntesIncorrectes$',views.preguntesIncorrectes,name='preguntesIncorrectes'),
+    url(r'^exportXML$',views.exportXML,name='exportXML'),
 )
