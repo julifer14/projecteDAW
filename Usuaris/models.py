@@ -16,7 +16,6 @@ class usuari(models.Model):
 
 
 def comprovar_medalles(sender, instance, created, **kwargs):
-    print "hola"
     puntsUsuari = instance.punts
     usu =  instance.user
     llistaMedallesUsuari = medalles.objects.filter(medallesusuari__usuari=usu)
@@ -25,7 +24,6 @@ def comprovar_medalles(sender, instance, created, **kwargs):
     #noves_medalles = []
     for m in medallesPosibles:
         if m not in llistaMedallesUsuari:
-            print m
             medallaUsu = medallesUsuari()
             medallaUsu.usuari = usu
             medallaUsu.medalla = m 

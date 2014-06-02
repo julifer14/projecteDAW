@@ -66,11 +66,9 @@ def crearPregunta(request):
     medalles = medallesUsuari.objects.filter(usuari = request.user)
     pot = False
     for m in medalles:
-        print m.medalla.nomMedalla
         if m.medalla.nomMedalla == 'CrearPreguntes':
             pot = True
     
-    print pot
     if pot:
         preg = pregunta()
         preg.usuari = request.user
@@ -164,7 +162,6 @@ def crearTema(request):
                 messages.success(request,'Tema introduit correctament')
                 #return HttpResponseRedirect(reverse('home'))
                 msg = "ok"
-                print form.cleaned_data['nom']
                 t = tema.objects.filter(nom=form.cleaned_data['nom']).get()
                 msg =  {"id": t.id, 
                             "nom": t.nom,
