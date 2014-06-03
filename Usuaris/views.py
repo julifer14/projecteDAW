@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.http.response import HttpResponseRedirect
 from django.contrib.auth.models import User
-from Usuaris.models import usuari, medallesUsuari
+from Usuaris.models import usuari, medallesUsuari, medalles
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 
@@ -15,6 +15,7 @@ def perfil(request):
     usuar = request.user
     useret = get_object_or_404(User, pk=usuar.id)
     medallesUser = medallesUsuari.objects.filter(usuari = usuar)
+    medallesPossibles = medalles.objects.all()
     if request.method == 'POST':
         form = formulariPerfil(request.POST)
         if form.is_valid():
@@ -39,7 +40,7 @@ def perfil(request):
     form.fields['first_name'].widget.attrs['value'] = useret.first_name
     form.fields['email'].widget.attrs['value'] = useret.email
             
-    return render(request, 'perfil.html',{'form':form,'medallesUser':medallesUser})
+    return render(request, 'perfil.html',{'form':form,'medallesUser':medallesUser,'medallesPossibles':medallesPossibles})
 
 def registrar(request):
     if request.method == 'POST':

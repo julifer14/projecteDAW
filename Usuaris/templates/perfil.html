@@ -27,15 +27,31 @@
 				{{user.usuari.punts}}
 			</p>
 			{% if medallesUser %}
-			<strong>Medalles: </strong>
-			<ul>
-			{% for m in medallesUser %}
-			<li>
-				{{m.medalla.nomMedalla}}
-			</li>
-			{%endfor%}
-			</ul>
+			<div class="col-md-5">
+
+				<ul class="list-group">
+					<li class="list-group-item active">
+						<strong>Medalles: </strong>
+					</li>
+					{% for m in medallesUser %}
+					<li class="list-group-item">
+						{{m.medalla.nomMedalla}}
+					</li>
+					{%endfor%}
+				</ul>
+			</div>
 			{% endif %}
+			<div class="col-md-offset-1 col-md-5">
+				
+				<ul class="list-group">
+					<li class="list-group-item active"><strong>Medalles Possibles: </strong></li>
+					{% for e in medallesPossibles %}
+					<li class="list-group-item">
+						{{e.nomMedalla}}
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
 		</div>
 		<input class="btn btn-default col-md-12 " type="submit" value="Guardar" />
 	</form>
