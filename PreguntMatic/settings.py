@@ -126,3 +126,4 @@ MEDIA_URL = '/media/'
 #Login i logout
 LOGIN_URL = '/usuaris/login'
 LOGOUT_URL = '/usuaris/logout'
+

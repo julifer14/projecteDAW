@@ -5,7 +5,7 @@
 		<link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 		<link href="{% static 'bootstrap/css/mensajes.css' %}" rel="stylesheet">
 		<link href="{% static 'estil.css' %}" rel="stylesheet">
-		
+
 		<meta charset="utf-8">
 		<title>{% block title %}BASE{% endblock %} - PreguntMatic </title>
 		{% block mesHead %}{% endblock %}
@@ -23,30 +23,30 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="{% url 'home' %}"><span class="glyphicon glyphicon-home"></span>  Preguntmatic</a>
+					<a class="navbar-brand" href="{% url 'home' %}"><span class="glyphicon glyphicon-home"></span> Preguntmatic</a>
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 						<li class="active">
-							<a href="{% url 'preguntes:ferPreguntes' %}"><span class="glyphicon glyphicon-list-alt"></span>  Pràcticar</a>
+							<a href="{% url 'preguntes:ferPreguntes' %}"><span class="glyphicon glyphicon-list-alt"></span> Pràcticar</a>
 						</li>
 						<li>
-							<a href="{% url 'preguntes:estadistiques' %}"><span class="glyphicon glyphicon-stats"></span>  Estadistiques</a>
+							<a href="{% url 'preguntes:estadistiques' %}"><span class="glyphicon glyphicon-stats"></span> Estadistiques</a>
 						</li>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench"></span>   Gestió Preguntes<b class="caret"></b></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench"></span> Gestió Preguntes<b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<!--<li>
-									<a href="{% url 'preguntes:crearTema' %}">Crear tema</a>
+								<a href="{% url 'preguntes:crearTema' %}">Crear tema</a>
 								</li>-->
 								<li>
 									<a href="{% url 'preguntes:crearPregunta' %}">Crear Pregunta</a>
 								</li>
-								
+
 								<li>
-									<a href="#">Gestió de preguntes errònies</a>
+									<a href="{% url 'preguntes:llistatPreguntesIncorrectes' %}">Gestió de preguntes errònies</a>
 								</li>
 								{% if request.user.is_staff %}
 								<li>
@@ -59,10 +59,11 @@
 					{% if user.is_authenticated %}
 					<!-- USUARI AUTENTICAT! -->
 					<ul class="nav navbar-nav navbar-right">
-						<p id="idUsuari" style="display:none">{{user.id}}</p>
+						<p id="idUsuari" style="display:none">
+							{{user.id}}
+						</p>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<span class="glyphicon glyphicon-user"></span> Hola, {{user.first_name}} {{user.last_name}}</a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> Hola, {{user.first_name}} {{user.last_name}}</a>
 							<ul class="dropdown-menu">
 								<li>
 									<a href="{% url 'usuaris:perfil' %}">Perfil</a>
@@ -77,7 +78,7 @@
 					{% else %}
 					<ul class="nav navbar-nav navbar-right">
 						<li>
-							
+
 							<a href="{% url 'usuaris:login' %}"><span class="glyphicon glyphicon-log-in"></span> Login </a>
 						</li>
 						<li>
@@ -88,7 +89,7 @@
 				</div><!-- /.navbar-collapse -->
 			</div><!-- /.container-fluid -->
 		</nav>
-		
+
 		<ol class="breadcrumb col-md-offset-1 col-md-10">
 			<span>Et trobes a: </span>
 			<li>
@@ -111,7 +112,7 @@
 		<script src="{% static 'highcharts.js'%}"></script>
 		<script src="{% static 'exporting.js' %}"></script>
 		<script src="{% static 'codiGeneral.js' %}"></script>
-		
+
 		{% if messages %}
 		<script>
 			{% load eines_extras %}
@@ -132,7 +133,7 @@
 
 			});
 		</script>
-		
+
 		{% endif %}
 		{% block mesScripts %}{% endblock %}
 		<div id="imatgeFons"></div>

@@ -15,4 +15,3 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^erroret500$','eines.views.error500',name='erroret500'),
 )
-handler500 = 'eines.views.error500'

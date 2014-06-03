@@ -7,7 +7,7 @@
 	<a href="{% url 'preguntes:ferPreguntes' %}">Preguntes</a>
 </li>
 <li>
-	<a href="{% url 'preguntes:llistatTipus' %}">Llistat Temes</a>
+	<a href="{% url 'preguntes:llistatTipus' %}">Llistat Tipus</a>
 </li>
 <li>
 	<a class="active">Tipus: {{ tipus }}</a>
@@ -49,7 +49,7 @@
 						</button> {%if medalles %}
 						{%for m in medalles %}
 						{% if 'ReportarPregunta' == m.medalla.nomMedalla %}
-						<button onclick="marcarIncorrecte({{pregunta.id}})"   class="btn butonet col-md-offset-1 btn-sm btn-warning" value="Reportar Pregunta Incorrecte ">
+						<button onclick="marcarIncorrecte({{pregunta.id}})" id="repor{{pregunta.id}}"  class="btn butonet col-md-offset-1 btn-sm btn-warning" value="Reportar Pregunta Incorrecte ">
 							Reportar Pregunta Incorrecte
 						</button> 
 						{%endif%}

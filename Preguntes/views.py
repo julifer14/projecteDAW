@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from Preguntes.forms import formulariPregunta, formulariTema, formulariResposta, formulariPreguntaErronea
+from Preguntes.forms import formulariPregunta, formulariTema, formulariResposta, formulariPreguntaErronea, formulariEliminarNotifiacio
 from django.contrib import messages
 from django.http.response import HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
@@ -10,30 +10,97 @@ from django.contrib.auth.models import User
 from django.core import serializers
 from django.http import HttpResponse
 from Usuaris.models import usuari, medallesUsuari
-import json
+from django.db.models import Count
+import json, random
+
+@login_required
+def eliminarNotificacio(request):
+    medalles = medallesUsuari.objects.filter(usuari = request.user)
+    pot = False
+    for m in medalles:
+        if m.medalla.nomMedalla == 'EliminarPreguntes':
+            pot = True
+    
+    if pot:
+        if request.method == 'POST':
+            form = formulariEliminarNotifiacio(request.POST)
+            if form.is_valid():
+                idP=form.cleaned_data['idPregunta']
+                print idP
+                pregun = pregunta.objects.filter(pk = idP)
+                notif = preguntaErronea.objects.filter(pregunta = pregun)
+                for n in notif:
+                    n.delete()
+                
+                    
+                messages.success(request,'Notificació enviada')
+                #return HttpResponseRedirect(reverse('home'))
+                msg = "ok"
+            else:
+                msg = "fail"
+                messages.error(request, 'Hi ha hagut un error al notificar')
+            return HttpResponse(msg)
+    else:
+        messages.error(request,'No tens permís per veure això!')
+        return HttpResponseRedirect(reverse('home'))
 
 @login_required
 def exportXML(request):
     data = serializers.serialize("xml", pregunta.objects.all())
     return HttpResponse(data, content_type="application/xml")
 
+@login_required
+def modificarPreguntes(request):
+    medalles = medallesUsuari.objects.filter(usuari = request.user)
+    pot = False
+    for m in medalles:
+        if m.medalla.nomMedalla == 'EliminarPreguntes':
+            pot = True
+    
+    if pot:
+        if request.method == 'POST':
+            form = formulariResposta(request.POST)
+            if form.is_valid():
+                idP=form.cleaned_data['id']
+                enunP = form.cleaned_data['enunciat']
+                form.save()
+                messages.success(request,'Notificació enviada')
+                #return HttpResponseRedirect(reverse('home'))
+                msg = "ok"
+            else:
+                msg = "fail"
+                messages.error(request, 'Hi ha hagut un error al notificar')
+            return HttpResponse(msg)
+    else:
+        messages.error(request,'No tens permís per veure això!')
+        return HttpResponseRedirect(reverse('home'))
 
-#Mostra les preguntes marcades com erroneas
+#Mostra les preguntes marcades com erroneas. Per modificar la pregunta anira a un altre vista
 @login_required
 def llistatPreguntesIncorrectes(request):
+    preguntesIn = []
     medalles = medallesUsuari.objects.filter(usuari = request.user)
     pot = False
     for m in medalles:
         if m.medalla.nomMedalla == 'EliminarPreguntes':
             pot = True
     if pot:
-        if request.method == 'POST':
-            pass
-        else:
-            #mostrar llistat preguntes erronies amb mes de 5 entrades
-            pass
+        
+        incor = preguntaErronea.objects.values('pregunta').annotate(recompte = Count('pregunta'))
+        for i in incor:
+            if i['recompte'] > 5:
+                p =  get_object_or_404(pregunta, pk=i['pregunta'])
+                preguntesIn.append(p)
+        
+        return render(request,'llistatPreguntesIncorrectes.html',{'preguntesIn':preguntesIn,})
+    else:
+        messages.error(request,'No tens permís per veure això!')
+        return HttpResponseRedirect(reverse('home'))
+        
+                    
         
 #Nomes poden entrar els de la medalla ReportarPregunta
+#Marca la pregunta com a incorrecte
 @login_required
 def preguntesIncorrectes(request):
     medalles = medallesUsuari.objects.filter(usuari = request.user)
@@ -177,7 +244,9 @@ def crearTema(request):
 @login_required
 def randomExamen(request):
     totesPreguntes = pregunta.objects.all()
-    return render(request,'preguntesRandom.html')
+    enviar = []
+    print random.randint(0,9)
+    return render(request,'randomPreguntes.html',{'preguntes':totesPreguntes,})
 
 #Vista que mostra l'exercici 
 @login_required

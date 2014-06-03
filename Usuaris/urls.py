@@ -7,4 +7,5 @@ urlpatterns = patterns('',
     url(r'^registre$',views.registrar,name='registre'),
     url(r'^perfil$',views.perfil,name='perfil'),
     url(r'^afegirPuntsUsuari$',views.afegirPuntsUsuari,name='afegirPuntsUsuari'),
+    
 )

@@ -13,4 +13,7 @@ urlpatterns = patterns('',
     url(r'^estadistiques$',views.estadistiques,name='estadistiques'),
     url(r'^preguntesIncorrectes$',views.preguntesIncorrectes,name='preguntesIncorrectes'),
     url(r'^exportXML$',views.exportXML,name='exportXML'),
+    url(r'^randomExamen$',views.randomExamen,name='randomExamen'),
+    url(r'^eliminarNotificacio$',views.eliminarNotificacio,name='eliminarNotificacio'),
+    url(r'^llistatPreguntesIncorrectes$',views.llistatPreguntesIncorrectes,name='llistatPreguntesIncorrectes'),
 )

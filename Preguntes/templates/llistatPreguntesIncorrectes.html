@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block  title %}Llistat de temes{% endblock %}
+
+{% block localitzacio %}
+<li>
+	<a href="{% url 'preguntes:ferPreguntes' %}">Preguntes</a>
+</li>
+<li>
+	<a class="active">Llistat preguntes Incorrectes</a>
+</li>
+{% endblock %}
+
+{% block content %}
+<h1>Preguntes incorrectes</h1>
+<p>
+	Aquestes són les preguntes que tenen més de 5 marques com incorrectes
+</p>
+{% if preguntesIn %}
+
+{% for p in preguntesIn %}
+<ul id="preg{{p.id}}" class="list-group col-md-11">
+	<li class="list-group-item  list-group-item-info">Enunciat actual  <span class="btn-group col-md-offset-1"><button onclick="corregirPreguntaInc({{p.id}})" class=" bnt btn-sm btn-default">Guardar modificació</button><button onclick="treureNotificacio({{p.id}})" class=" bnt btn-sm btn-danger">Notificació Erronia</button></span></li>
+	<li class="list-group-item">
+		{{p.enunciat}}
+	</li>
+	<li class="list-group-item list-group-item-info">Si necessita correcció fes-la </li>
+	<li id="{{p.id}}" class="list-group-item">
+		{{p.toHTML}}
+	</li>
+	
+</ul>
+{% endfor %}
+
+{% else %}
+<h1>No hi ha preguntes incorrectes!</h1>
+{% endif %}
+{% endblock %}
+

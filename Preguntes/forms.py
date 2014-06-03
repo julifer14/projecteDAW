@@ -19,3 +19,11 @@ class formulariPreguntaErronea(forms.ModelForm):
 class formulariResposta(forms.Form):
     idPregunta = forms.IntegerField()
     respostes = forms.CharField(max_length=300)
+    
+class formulariEliminarNotifiacio(forms.Form):
+    idPregunta = forms.IntegerField()
+    
+
+    
+
+    
