@@ -26,7 +26,6 @@ def eliminarNotificacio(request):
             form = formulariEliminarNotifiacio(request.POST)
             if form.is_valid():
                 idP=form.cleaned_data['idPregunta']
-                print idP
                 pregun = pregunta.objects.filter(pk = idP)
                 notif = preguntaErronea.objects.filter(pregunta = pregun)
                 for n in notif:
@@ -173,7 +172,6 @@ def afegirResposta(request):
             #El model té una funció que retorna les respostes en un array
             arrayRespostesCorrectes = pregun.getRespostes()
             #Comprovació de les respostes
-            print pregun.tipus.nom
             #La comprovació de les respostes canvia segons el tipus de la pregunta.
             if pregun.tipus.nom == "EmplenarBuitsOrtografics":
                 if arrayRespostesCorrectes == arrayRespostesUsuari:
@@ -254,9 +252,9 @@ def crearTema(request):
 @login_required
 def randomExamen(request):
     totesPreguntes = pregunta.objects.all()
+    medallesUser = medallesUsuari.objects.filter(usuari = request.user)
     enviar = []
-    print random.randint(0,9)
-    return render(request,'randomPreguntes.html',{'preguntes':totesPreguntes,})
+    return render(request,'randomPreguntes.html',{'preguntes':totesPreguntes,'medalles':medallesUser,})
 
 #Vista que mostra l'exercici 
 @login_required

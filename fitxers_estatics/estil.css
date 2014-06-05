@@ -27,6 +27,14 @@
 	margin-top: 70px !important;
 	
 }
+#imatge404 {
+	background-image: url('./imatges/404.png') !important;
+	width: 130px !important;
+	height: 145px !important;
+	background: no-repeat;
+	margin-top: 70px !important;
+	
+}
 .validarPreguntes, .butonet{
 	/*margin-top: 20px !important;*/
 }

@@ -7,3 +7,6 @@ def home(request):
 
 def error500(request):
     return render(request, '500.html')
+
+def error404(request):
+    return render(request,'404.html')
