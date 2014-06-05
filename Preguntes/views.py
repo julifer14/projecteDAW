@@ -13,6 +13,7 @@ from Usuaris.models import usuari, medallesUsuari
 from django.db.models import Count
 import json, random
 
+#Elimina les entrades a la BDD de la pregunta, perquè no es erronia
 @login_required
 def eliminarNotificacio(request):
     medalles = medallesUsuari.objects.filter(usuari = request.user)
@@ -20,7 +21,6 @@ def eliminarNotificacio(request):
     for m in medalles:
         if m.medalla.nomMedalla == 'EliminarPreguntes':
             pot = True
-    
     if pot:
         if request.method == 'POST':
             form = formulariEliminarNotifiacio(request.POST)
@@ -30,10 +30,7 @@ def eliminarNotificacio(request):
                 notif = preguntaErronea.objects.filter(pregunta = pregun)
                 for n in notif:
                     n.delete()
-                
-                    
                 messages.success(request,'Notificació enviada')
-                #return HttpResponseRedirect(reverse('home'))
                 msg = "ok"
             else:
                 msg = "fail"
@@ -43,11 +40,13 @@ def eliminarNotificacio(request):
         messages.error(request,'No tens permís per veure això!')
         return HttpResponseRedirect(reverse('home'))
 
+#Exporta les preguntes en XML
 @login_required
 def exportXML(request):
     data = serializers.serialize("xml", pregunta.objects.all())
     return HttpResponse(data, content_type="application/xml")
 
+#-----------No es fa servir?
 @login_required
 def modificarPreguntes(request):
     medalles = medallesUsuari.objects.filter(usuari = request.user)
@@ -55,7 +54,6 @@ def modificarPreguntes(request):
     for m in medalles:
         if m.medalla.nomMedalla == 'EliminarPreguntes':
             pot = True
-    
     if pot:
         if request.method == 'POST':
             form = formulariResposta(request.POST)
@@ -64,7 +62,6 @@ def modificarPreguntes(request):
                 enunP = form.cleaned_data['enunciat']
                 form.save()
                 messages.success(request,'Notificació enviada')
-                #return HttpResponseRedirect(reverse('home'))
                 msg = "ok"
             else:
                 msg = "fail"
@@ -125,7 +122,7 @@ def preguntesIncorrectes(request):
     else:
         messages.error(request,'No tens permís per veure això!')
         return HttpResponseRedirect(reverse('home'))
-        #form = formulariTema()
+        
 #Nomes poden entrar els de la medalla CrearPreguntes
 @login_required
 def crearPregunta(request):
@@ -156,6 +153,7 @@ def crearPregunta(request):
     else:
         messages.error(request,'No tens permís per veure això!')
         return HttpResponseRedirect(reverse('home'))
+    
 #Per AJAX arriba un formulari amb el necessari per corregir
 @login_required
 def afegirResposta(request):
@@ -215,7 +213,6 @@ def afegirResposta(request):
         messages.error(request,'No tens permís per veure això!')
         return HttpResponseRedirect(reverse('home'))
     
-    
 #Nomes poden entrar els de la medalla crear preguntes -- Si poden crear preguntes podran crear temes
 @login_required
 def crearTema(request):
@@ -244,12 +241,12 @@ def crearTema(request):
     else:
         messages.error(request,'No tens permís per veure això!')
         return HttpResponseRedirect(reverse('home'))
-#-------------------------------SENSE FER!
+    
+#Mostra totes les preguntes
 @login_required
 def randomExamen(request):
     totesPreguntes = pregunta.objects.all()
     medallesUser = medallesUsuari.objects.filter(usuari = request.user)
-    enviar = []
     return render(request,'randomPreguntes.html',{'preguntes':totesPreguntes,'medalles':medallesUser,})
 
 #Vista que mostra l'exercici 
@@ -264,16 +261,6 @@ def practicarTipus(request, tipusPregunta):
     context = {'preguntesTipus':preguntesTipus,'tipus':tip,'medalles':medallesUser,}
     return render(request, 'preguntesTipus.html',context)
 
-##########En desus ---- mostra els temes 
-@login_required
-def llistaTemes(request):
-    if request.user.is_staff:
-        temes = tema.objects.all()
-        context = {'temes':temes}
-        return render(request,'--llistatTemes.html',context)
-    else:
-        messages.error(request,'No tens permís per veure això!')
-        return HttpResponseRedirect(reverse('home')) 
 
 @login_required
 def llistatTipus(request):
@@ -286,6 +273,7 @@ def ferPreguntes(request):
     #temes = tema.objects.all()
     return render(request,'preguntes.html')
 
+#Mostra les estadistiques
 @login_required
 def estadistiques(request):
     #Estadistica de l'evolució de l'usuari
@@ -294,8 +282,3 @@ def estadistiques(request):
     mevesPreguntes = pregunta.objects.filter(usuari = request.user)
     return render(request,'estadistiques.html', {'punts':punts,'mevesPreguntes':mevesPreguntes,})
 
-######En desus ---- Mostra totes les preguntes
-@login_required
-def llistatPreguntes(request):
-    preguntes = pregunta.objects.all()
-    return render(request,'--llistatPreguntes.html',{'preguntes':preguntes})
