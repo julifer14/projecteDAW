@@ -174,20 +174,16 @@ def afegirResposta(request):
             #Comprovació de les respostes
             #La comprovació de les respostes canvia segons el tipus de la pregunta.
             if pregun.tipus.nom == "EmplenarBuitsOrtografics":
-                if arrayRespostesCorrectes == arrayRespostesUsuari:
-                    nota = 10
-                    correcte = len(arrayRespostesCorrectes)
-                else:
-                    
-                    for i in xrange(len(arrayRespostesCorrectes)):
-                        if arrayRespostesCorrectes[i] == arrayRespostesUsuari[i]:
-                            correcte= correcte+1
-                        else:
-                            incorrecte = incorrecte+1
+               
+                for i in xrange(len(arrayRespostesCorrectes)):
+                    if arrayRespostesCorrectes[i].lower() == arrayRespostesUsuari[i].lower():
+                        correcte= correcte+1
+                    else:
+                        incorrecte = incorrecte+1
                     
             else:
                 for i in arrayRespostesUsuari:
-                    if i in arrayRespostesCorrectes:
+                    if i.lower() in arrayRespostesCorrectes:
                         correcte = correcte +1
                     else:
                         incorrecte = incorrecte+1
