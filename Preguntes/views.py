@@ -173,18 +173,28 @@ def afegirResposta(request):
             #El model té una funció que retorna les respostes en un array
             arrayRespostesCorrectes = pregun.getRespostes()
             #Comprovació de les respostes
-            if arrayRespostesCorrectes == arrayRespostesUsuari:
-                nota = 10
-                correcte = len(arrayRespostesCorrectes)
+            print pregun.tipus.nom
+            #La comprovació de les respostes canvia segons el tipus de la pregunta.
+            if pregun.tipus.nom == "EmplenarBuitsOrtografics":
+                if arrayRespostesCorrectes == arrayRespostesUsuari:
+                    nota = 10
+                    correcte = len(arrayRespostesCorrectes)
+                else:
+                    
+                    for i in xrange(len(arrayRespostesCorrectes)):
+                        if arrayRespostesCorrectes[i] == arrayRespostesUsuari[i]:
+                            correcte= correcte+1
+                        else:
+                            incorrecte = incorrecte+1
+                    
             else:
-                
-                for i in xrange(len(arrayRespostesCorrectes)):
-                    if arrayRespostesCorrectes[i] == arrayRespostesUsuari[i]:
-                        correcte= correcte+1
+                for i in arrayRespostesUsuari:
+                    if i in arrayRespostesCorrectes:
+                        correcte = correcte +1
                     else:
                         incorrecte = incorrecte+1
-                notaPerPregunta = 10/(correcte+incorrecte)
-                nota = correcte*notaPerPregunta
+            notaPerPregunta = 10/(correcte+incorrecte)
+            nota = correcte*notaPerPregunta  
             puntu = puntuacio()
             puntu.pregunta = pregun
             puntu.usuari = request.user

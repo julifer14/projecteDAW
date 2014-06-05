@@ -19,6 +19,7 @@
 	</button>
 	<form action="" method="post" enctype="multipart/form-data" class="form-horizontal" role="form">
 		{% csrf_token %}
+		<button class="btn btn-default"  data-toggle="modal" data-target="#exempleTipus" >Veure exemples</button>
 		{% for field in form.visible_fields %}
 		<div  class="col-md-12  form-group">
 			{{ field.errors }}
@@ -30,6 +31,26 @@
 		</div>
 	</form>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exempleTipus" tabindex="-1" role="dialog" aria-labelledby="exempleTipusLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div id="textModalTipus" class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <div class="modal fade" id="nouTema" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">

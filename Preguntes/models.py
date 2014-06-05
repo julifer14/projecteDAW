@@ -46,7 +46,7 @@ class pregunta(models.Model):
         text = self.enunciat
         canvi = ""
         if self.tipus.nom == "CompletarGramatica":
-            canvi = "<input class='resposta' type='text'><br>"
+            canvi = "<input class='resposta form-control' type='text'><br>"
         if self.tipus.nom == "EmplenarBuitsOrtografics":
             canvi = "<input class='form-control  inputPetit resposta' type='text'>"
         return safe(re.sub(r'\[\w+\]',canvi, text))
