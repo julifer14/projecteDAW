@@ -74,6 +74,25 @@
 			{% endfor %}
 
 		</ul>
+		
+		<div class="col-md-offset-2 col-md-8">
+	<div class="pagination">
+		{% if preguntes.has_previous %} <li><a href="?pagina={{ preguntes.previous_page_number }}">&laquo;</a></li>
+		{% else %} <li class="disabled"> <a>&laquo;</a> </li>
+		{% endif %}
+
+		{% for i in preguntes.paginator.page_range %}
+		{% ifequal i preguntes.number %} <li class="active"> <a href="?pagina={{ i }}">{{ i }}</a></li>
+		{% else %}<li> <a href="?pagina={{ i }}">{{ i }}</a></li>
+		{% endifequal %}
+		{% endfor %}
+
+		{% if preguntes.has_next %}<li><a href="?pagina={{ preguntes.next_page_number }}">&raquo;</a></li>
+		{% else %}<li class="disabled"><a>&raquo;</a></li>
+		{% endif %}
+		</div>
+		</div>
+		
 	</div>
 </div>
 {% else %}

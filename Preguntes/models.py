@@ -24,16 +24,13 @@ class pregunta(models.Model):
     usuari = models.ForeignKey(User)
     tipus = models.ForeignKey(tipus)
     enunciat =  models.TextField(max_length=500)
-    
-    
-    
+
     def __unicode__(self):
         return self.enunciat
     
     def mitjana(self):
         m = self.puntuacio_set.aggregate(mitjana = Avg('notaUsuari'))
         return m['mitjana']
-    
     
     #Generar array de respostes
     def getRespostes(self):

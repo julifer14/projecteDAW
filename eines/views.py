@@ -10,3 +10,6 @@ def error500(request):
 
 def error404(request):
     return render(request,'404.html')
+
+def politicaIAvis(request):
+    return render(request,'politicaIAvis.html')

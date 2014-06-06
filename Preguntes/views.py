@@ -12,6 +12,7 @@ from django.http import HttpResponse
 from Usuaris.models import usuari, medallesUsuari
 from django.db.models import Count
 import json, random
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 #Elimina les entrades a la BDD de la pregunta, perquè no es erronia
 @login_required
@@ -131,7 +132,6 @@ def crearPregunta(request):
     for m in medalles:
         if m.medalla.nomMedalla == 'CrearPreguntes':
             pot = True
-    
     if pot:
         preg = pregunta()
         preg.usuari = request.user
@@ -172,13 +172,11 @@ def afegirResposta(request):
             #Comprovació de les respostes
             #La comprovació de les respostes canvia segons el tipus de la pregunta.
             if pregun.tipus.nom == "EmplenarBuitsOrtografics":
-               
                 for i in xrange(len(arrayRespostesCorrectes)):
                     if arrayRespostesCorrectes[i].lower() == arrayRespostesUsuari[i].lower():
                         correcte= correcte+1
                     else:
                         incorrecte = incorrecte+1
-                    
             else:
                 for i in arrayRespostesUsuari:
                     if i.lower() in arrayRespostesCorrectes:
@@ -228,7 +226,6 @@ def crearTema(request):
             if form.is_valid():
                 form.save()
                 messages.success(request,'Tema introduit correctament')
-                #return HttpResponseRedirect(reverse('home'))
                 msg = "ok"
                 t = tema.objects.filter(nom=form.cleaned_data['nom']).get()
                 msg =  {"id": t.id, 
@@ -246,6 +243,14 @@ def crearTema(request):
 @login_required
 def randomExamen(request):
     totesPreguntes = pregunta.objects.all()
+    paginator = Paginator(totesPreguntes,5)
+    page = request.GET.get('pagina')
+    try:
+        totesPreguntes = paginator.page(page)
+    except PageNotAnInteger:
+        totesPreguntes = paginator.page(1)
+    except EmptyPage:
+        totesPreguntes = paginator.page(1)      
     medallesUser = medallesUsuari.objects.filter(usuari = request.user)
     return render(request,'randomPreguntes.html',{'preguntes':totesPreguntes,'medalles':medallesUser,})
 
@@ -270,7 +275,6 @@ def llistatTipus(request):
 
 #Mostrar /preguntes
 def ferPreguntes(request):
-    #temes = tema.objects.all()
     return render(request,'preguntes.html')
 
 #Mostra les estadistiques

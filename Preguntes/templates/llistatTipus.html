@@ -1,9 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-
-
 {% block  title %}Llistat de tipus{% endblock %}
-
 {% block localitzacio %}
 		<li>
 			<a href="{% url 'preguntes:ferPreguntes' %}">Preguntes</a>
@@ -12,7 +9,6 @@
 			<a class="active">Llistat de Tipus</a>
 		</li>
 {% endblock %}
-
 {% block content %} 
 <h1>Tipus disponibles</h1>
 <strong>Escull el tipus que vulguis pràcticar</strong><br><br>

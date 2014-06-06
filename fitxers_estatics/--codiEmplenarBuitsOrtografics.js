@@ -2,7 +2,6 @@ var preguntetes = new Array();
 var idPreguntes = new Array();
 var respostes = new Array();
 $(document).ready(function() {
-
 	/*
 	 * ******************Generar inputs**************************
 	 */
@@ -54,10 +53,6 @@ $(document).ready(function() {
 		$('#' + idPreguntes[i]).append("<span>" + variable + "</span>");
 		respostes.push(resposta);
 	}
-
-	/*
-	 * ********************************************
-	 */
 	/*
 	 * ******** Corregir preguntes ***********************
 	 */

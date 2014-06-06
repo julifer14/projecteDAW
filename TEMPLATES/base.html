@@ -57,10 +57,14 @@
 							</ul>
 						</li>
 						{% endif %}
+						
 					</ul>
 					{% if user.is_authenticated %}
 					<!-- USUARI AUTENTICAT! -->
 					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="{% url 'politicaIAvis' %}"><span class="glyphicon glyphicon-pushpin"></span> Avís Legal</a>
+						</li>
 						<p id="idUsuari" style="display:none">
 							{{user.id}}
 						</p>
@@ -79,6 +83,9 @@
 					</ul>
 					{% else %}
 					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="{% url 'politicaIAvis' %}"><span class="glyphicon glyphicon-pushpin"></span> Avís Legal</a>
+						</li>
 						<li>
 
 							<a href="{% url 'usuaris:login' %}"><span class="glyphicon glyphicon-log-in"></span> Login </a>
